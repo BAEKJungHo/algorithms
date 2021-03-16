@@ -1,4 +1,6 @@
-# Algorithms
+This Repository is practicing algorithms 
+
+## Algorithms
 
 - [TheAlgorithms-Java](https://github.com/TheAlgorithms/Java)
 
