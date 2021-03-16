@@ -1,9 +1,9 @@
-package codeup.basic100.sol3;
+package codeup.basic100.sol004;
 
 public class Solution {
 
     public static void main(String[] args) {
-        System.out.println("Hello\nWorld");
+        System.out.println("\'Hello\'");
     }
 
 }

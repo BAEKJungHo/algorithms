@@ -1,4 +1,4 @@
-package codeup.basic100.sol8;
+package codeup.basic100.sol008;
 
 public class Solution {
 

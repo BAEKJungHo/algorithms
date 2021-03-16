@@ -1,4 +1,4 @@
-package codeup.basic100.sol1;
+package codeup.basic100.sol001;
 
 /**
  * [기초-출력] 출력하기01(설명)

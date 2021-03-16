@@ -1,4 +1,4 @@
-package codeup.basic100.sol9;
+package codeup.basic100.sol009;
 
 import java.util.Scanner;
 
