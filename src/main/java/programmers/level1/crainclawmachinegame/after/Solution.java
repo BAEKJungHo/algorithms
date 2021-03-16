@@ -2,6 +2,15 @@ package programmers.level1.crainclawmachinegame.after;
 
 import java.util.Stack;
 
+/**
+ * 2019 카카오 개발자 겨울 인턴십
+ * 크레인 인형뽑기 게임
+ * ==============================================
+ * @author BJH
+ * @history 작성일            작성자     변경내용
+ * @history 2021-03-15         BJH      최초작성
+ * ==============================================
+ */
 public class Solution {
 
     // 0행 : 1열 2열 3열 4열 5열 ...
