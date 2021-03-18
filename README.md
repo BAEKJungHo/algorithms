@@ -17,7 +17,7 @@
 
 ## Lectures
 
-- https://www.coursera.org/
+- https://www.coursera.org
   - 직접 저자 직강으로 한글 자막이 있는 강의가 있다. (모든 소스는 자바로 작성)
 
 ## References
