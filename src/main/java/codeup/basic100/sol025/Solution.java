@@ -1,25 +1,24 @@
 package codeup.basic100.sol025;
 
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+// 1027
 public class Solution {
-
-    private static final Pattern DATE_REGEX = Pattern.compile("^\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[0-1])$");
 
     public static void main(String[] args) {
 
         while(true) {
             Scanner sc = new Scanner(System.in);
             String date = sc.nextLine();
-            String[] arr = date.split("-");
+            String[] arr = date.split("\\.");
 
-            Matcher isCorrectDateType = DATE_REGEX.matcher(date);
-
-            if(isCorrectDateType.find()) {
-                System.out.println("yyyy-MM-dd 형식으로 입력해야 합니다.");
+            if(arr.length != 3) {
+                System.out.println("년월일 형식을 .으로 구분해서 입력해야 합니다.");
+                continue;
             }
+
+            System.out.println(String.format("%02d-%02d-%04d", Integer.parseInt(arr[2]), Integer.parseInt(arr[1]), Integer.parseInt(arr[0])));
+            break;
         }
 
     }

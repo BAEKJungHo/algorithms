@@ -1,16 +1,14 @@
-package codeup.basic100.sol016;
-
+package codeup.basic100.sol032;
 
 import java.util.Scanner;
 
-// 1018
+// 1034
 public class Solution {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String str = sc.nextLine();
-        String[] arr  = str.split(":");
-        System.out.println(String.format("%s:%s", arr[0], arr[1]));
+        System.out.println(Integer.parseInt(str, 8));
     }
 
 }

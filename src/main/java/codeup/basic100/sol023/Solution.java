@@ -2,6 +2,7 @@ package codeup.basic100.sol023;
 
 import java.util.Scanner;
 
+// 1025
 public class Solution {
 
     public static void main(String[] args) {

@@ -1,16 +1,15 @@
-package codeup.basic100.sol016;
-
+package codeup.basic100.sol033;
 
 import java.util.Scanner;
 
-// 1018
+// 1035
 public class Solution {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String str = sc.nextLine();
-        String[] arr  = str.split(":");
-        System.out.println(String.format("%s:%s", arr[0], arr[1]));
+        int num = Integer.parseInt(str, 16);
+        System.out.println(Integer.toOctalString(num));
     }
 
 }
