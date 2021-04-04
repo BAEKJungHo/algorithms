@@ -5,11 +5,15 @@
 ## Site
 
 - [Baekjoon Online Judge](https://www.acmicpc.net/)
+  -[BOJ Slack](https://acmicpc.slack.com)
 - [SW Expert Academy](https://swexpertacademy.com/main/main.do)
 - [Programmers](https://programmers.co.kr/)
 - [Code Force](https://codeforces.com/)
 - [LeetCode](https://leetcode.com/)
 - [CodeUp](https://codeup.kr/)
+- [Code Signal](https://app.codesignal.com)
+- [정올](https://www.jungol.co.kr)
+-
 
 ## Online IDE
 
