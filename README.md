@@ -1,6 +1,7 @@
 ## Algorithms
 
 - [TheAlgorithms-Java](https://github.com/TheAlgorithms/Java)
+- [GeeksForGeeks Tutorials](https://www.geeksforgeeks.org/array-data-structure/?ref=ghm)
 
 ## Site
 
