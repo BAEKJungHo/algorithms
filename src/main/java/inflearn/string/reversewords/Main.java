@@ -58,8 +58,8 @@ public class Main {
                 rt--;
             }
             String tmp = String.valueOf(s);
-            answer.add(tmp)
-;        }
+            answer.add(tmp);
+        }
 
         return answer;
     }
