@@ -1,6 +1,33 @@
 # 문자열
 
-## 🔑 indexOf() 를 사용한 문제
+## 🔑 기본 문제
+
+### [문장 속 가장 긴 단어 찾기](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/string/wordinsentence/Main.java)
+
+```
+한 개의 문장이 주어지면 그 문장 속에서 가장 긴 단어를 출력하는 프로그램을 작성하세요.
+* 예시 입력
+* it is time to study
+*
+* 예시 출력
+* study
+```
+
+```java
+public String solution(String sentence) {
+    String answer = "";
+    int m = Integer.MIN_VALUE;
+    String[] words = sentence.split(" ");
+    for (String word : words) {
+        int len = word.length();
+        if(len > m) {
+            m = len;
+            answer = word;
+        }
+    }
+    return answer;
+}
+```
 
 ### [문자 찾기](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/string/findstring/Main.java)
 
@@ -21,6 +48,8 @@ public int solution(String str, char c) {
     return result;
 }
 ```
+
+## 🔑 indexOf() 를 사용한 문제
 
 ### [중복 문자열 제거](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/string/duplicatedwordsremove/Main.java)
 
@@ -102,6 +131,8 @@ public String solution(String str) {
 }
 ```
 
+## 🔑 lt, rt, 교환코드를 사용하는 문제
+
 ### [단어 뒤집기](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/string/reversewords/Main.java)
 
 ```
@@ -148,33 +179,6 @@ public List<String> solution(String[] words) {
         answer.add(tmp);
     }
 
-    return answer;
-}
-```
-
-### [문장 속 가장 긴 단어 찾기](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/string/wordinsentence/Main.java)
-
-```
-한 개의 문장이 주어지면 그 문장 속에서 가장 긴 단어를 출력하는 프로그램을 작성하세요.
-* 예시 입력
-* it is time to study
-*
-* 예시 출력
-* study
-```
-
-```java
-public String solution(String sentence) {
-    String answer = "";
-    int m = Integer.MIN_VALUE;
-    String[] words = sentence.split(" ");
-    for (String word : words) {
-        int len = word.length();
-        if(len > m) {
-            m = len;
-            answer = word;
-        }
-    }
     return answer;
 }
 ```
