@@ -2,6 +2,26 @@
 
 ## 🔑 indexOf() 를 사용한 문제
 
+### [문자 찾기](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/string/findstring/Main.java)
+
+- Point
+  - char 비교는 `==` 사용
+
+
+```java
+public int solution(String str, char c) {
+    int result = 0;
+    c = Character.toUpperCase(c);
+    char[] words = str.toUpperCase().toCharArray();
+    for (char word : words) {
+        if(word == c) {
+            result++;
+        }
+    }
+    return result;
+}
+```
+
 ### [중복 문자열 제거](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/string/duplicatedwordsremove/Main.java)
 
 - 입력 : ksekkset
@@ -79,5 +99,82 @@ public String solution(String str) {
         return "YES";
     }
     return "NO";
+}
+```
+
+### [단어 뒤집기](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/string/reversewords/Main.java)
+
+```
+N개의 단어가 주어지면 각 단어를 뒤집어 출력하는 프로그램을 작성하세요.
+* 예시 입력 1
+* 3
+* good
+* Time
+* Big
+*
+* 예시 출력 1
+* doog
+* emiT
+* giB
+```
+
+- Point
+  - lt(left), rt(right) 인덱스 활용
+  - 교환코드 활용
+
+```java
+public List<String> solution(String[] words) {
+    List<String> answer = new ArrayList<>();
+    /**
+     * 아래의 문제는 손 코딩으로도 낼 만한 문제임.
+     *
+     * study -> 가운데(u)를 기준으로 lt(s,t) rt(d,y) 끼리 변경하기
+     * lt == rt 이면 다 바뀐 것
+     * good -> 무조건 lt < rt 밖에 없음
+     */
+    for(String word : words) {
+        char[] s = word.toCharArray();
+        int lt = 0;
+        int rt = word.length()-1;
+        while(lt < rt) {
+            // 교환 코드
+            char tmp = s[lt];
+            s[lt] = s[rt];
+            s[rt] = tmp;
+            lt++;
+            rt--;
+        }
+        String tmp = String.valueOf(s);
+        answer.add(tmp);
+    }
+
+    return answer;
+}
+```
+
+### [문장 속 가장 긴 단어 찾기](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/string/wordinsentence/Main.java)
+
+```
+한 개의 문장이 주어지면 그 문장 속에서 가장 긴 단어를 출력하는 프로그램을 작성하세요.
+* 예시 입력
+* it is time to study
+*
+* 예시 출력
+* study
+```
+
+```java
+public String solution(String sentence) {
+    String answer = "";
+    int m = Integer.MIN_VALUE;
+    String[] words = sentence.split(" ");
+    for (String word : words) {
+        int len = word.length();
+        if(len > m) {
+            m = len;
+            answer = word;
+        }
+    }
+    return answer;
 }
 ```
