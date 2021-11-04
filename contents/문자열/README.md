@@ -1,8 +1,8 @@
 # 문자열
 
-## indexOf() 를 사용한 문제
+## 🔑 indexOf() 를 사용한 문제
 
-### 중복 문자열 제거
+### [중복 문자열 제거](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/string/duplicatedwordsremove/Main.java)
 
 - 입력 : ksekkset
 - 출력 : kset
@@ -26,9 +26,9 @@ public String solution2(String str) {
 }
 ```
 
-## replaceAll() 을 사용한 문제 : 정규식 문제
+## 🔑 replaceAll() 을 사용한 문제 : 정규식 문제
 
-### 숫자만 추출하기
+### [숫자만 추출하기](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/string/extractnumbers/Main.java)
 
 - 입력 : g0en2T0s8eSoft
 - 출력 : 208
@@ -52,7 +52,7 @@ public int solution2(String str) {
 }
 ```
 
-### 유효한 팰린드롬
+### [유효한 팰린드롬](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/string/palindrome/valid/Main.java)
 
 - Point
   - replaceAll() 이용
