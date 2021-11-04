@@ -49,6 +49,48 @@ public int solution(String str, char c) {
 }
 ```
 
+### [문자열 압축](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/string/compactstring/Main.java)
+
+```
+* 예시 입력 1
+* KKHSSSSSSSE
+*
+* 예시 출력 1
+* K2HS7E
+*
+* 예시 입력 2
+* KSTTTSEEKFKKKDJJGG
+*
+* 예시 출력 2
+* KST3SE2KFK3DJ2G2
+```
+
+- Point
+  - charAt() 을 이용한 비교
+
+
+```java
+// i 번째랑 i+1 번째의 문자를 비교한다.
+public String solution2(String s){
+    String answer="";
+    s=s+" ";
+    int cnt=1;
+    for(int i=0; i<s.length()-1; i++){
+        if(s.charAt(i)==s.charAt(i+1)) cnt++;
+        else{
+            answer+=s.charAt(i);
+            if(cnt>1) answer+=String.valueOf(cnt);
+            cnt=1;
+        }
+    }
+    return answer;
+}
+```
+
+### [최단 거리 계산](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/string/shortdistance/Main.java)
+
+링크 참고
+
 ## 🔑 indexOf() 를 사용한 문제
 
 ### [중복 문자열 제거](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/string/duplicatedwordsremove/Main.java)
@@ -128,6 +170,26 @@ public String solution(String str) {
         return "YES";
     }
     return "NO";
+}
+```
+
+## 🔑 replace() 를 사용한 문제
+
+### [암호](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/string/password/Main.java)
+
+- 문제 내용 링크 참고
+
+```java
+// replace 이용
+public String solution2(int n, String s){
+    String answer = "";
+    for(int i=0; i<n; i++) {
+        String tmp = s.substring(0, 7).replace("#", "1").replace("*", "0");
+        int num = Integer.parseInt(tmp, 2);
+        answer += (char) num;
+        s = s.substring(7);
+    }
+    return answer;
 }
 ```
 
