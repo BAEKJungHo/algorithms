@@ -5,66 +5,87 @@
   - 정렬된 배열에서 쌍을 검색하는 데 일반적으로 사용되는 정말 쉽고 효과적인 기술이다.
 - 시간 복잡도
   - O(n)
+- Point
+  - 두 포인터를 증가하는 것
 
-## Sample
+## 🔑 기본 문제
+
+### [두 배열 합치기](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/twopointers/sumarray/Main.java)
+
+```
+* 출력
+* 오름차순으로 정렬된 배열을 출력합니다.
+*
+* 예시 입력 1
+* 3
+* 1 3 5
+* 5
+* 2 3 6 7 9
+*
+* 예시 출력 1
+* 1 2 3 3 5 6 7 9
+```
 
 ```java
-// Java Program Illustrating Naive Approach to
-// Find if There is a Pair in A[0..N-1] with Given Sum
-// Using Two-pointers Technique
- 
-// Importing all utility classes
-import java.io.*;
- 
-// Main class
-class GFG
-{
-     // Two pointer technique based solution to find
-    // if there is a pair in A[0..N-1] with a given sum.
-    public static int isPairSum(int A[], int N, int X)
-    {
-        // represents first pointer
-        int i = 0;
- 
-        // represents second pointer
-        int j = N - 1;
- 
-        while (i < j) {
- 
-            // If we find a pair
-            if (A[i] + A[j] == X)
-                return 1;
- 
-            // If sum of elements at current
-            // pointers is less, we move towards
-            // higher values by doing i++
-            else if (A[i] + A[j] < X)
-                i++;
- 
-            // If sum of elements at current
-            // pointers is more, we move towards
-            // lower values by doing j--
-            else
-                j--;
+// Two pointer 는 인터뷰에서도 물어볼 수 있는데, 배열을 합쳐서 그냥 정렬한다라고 대답하면 인상적이지 못하다.
+// Two pointer 의 핵심은 말 그대로 포인터 2개를 두어 사용하며, 시간 복잡도가 O(n) 이 나와야한다.
+// 퀵 정렬도 O(nlogn) 이기 때문에 속도 차이가 심하다.
+// a : 1 3 5   pointer1 -> 0번째 인덱스를 가르킨다.
+// b : 2 3 5 7 9 pointer2 -> 0번째 인덱스를 가르킨다.
+public List<Integer> solution(int n, int m, int[] a, int[] b){
+    List<Integer> answer = new ArrayList<>();
+    // 포인터 2개 생성
+    int p1 = 0, p2 = 0;
+    while(p1 < n && p2 < m) {
+        if(a[p1] < b[p2]) {
+            answer.add(a[p1++]);
+        } else {
+            answer.add(b[p2++]);
         }
-        return 0;
     }
-   
-    // Driver code
-    public static void main(String[] args)
-    {
-        // array declaration
-        int arr[] = { 3, 5, 9, 2, 8, 10, 11 };
-         
-        // value to search
-        int val = 17;
-       
-        // size of the array
-        int arrSize = arr.length;
-       
-        // Function call
-        System.out.println(isPairSum(arr, arrSize, val));
+    while(p1<n) answer.add(a[p1++]);
+    while(p2<m) answer.add(b[p2++]);
+
+    return answer;
+}
+```
+
+### [공통 원소 구하기](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/twopointers/commonelements/Main.java)
+
+```
+* 출력
+* 두 집합의 공통원소를 오름차순 정렬하여 출력합니다.
+*
+* 예시 입력 1
+* 5
+* 1 3 9 5 2
+* 5
+* 3 2 5 7 8
+*
+* 예시 출력 1
+* 2 3 5
+```
+
+```java
+// 오름차순으로 정렬을 먼저 시켜줘야 한다.
+// Two pointer 문제니까 O(n)
+public List<Integer> solution(int n, int m, int[] a, int[] b) {
+    List<Integer> answer = new ArrayList<>();
+    Arrays.sort(a);
+    Arrays.sort(b);
+    int p1 = 0, p2 = 0;
+    int cnt = 0;
+    while(p1 < n && p2 < m) {
+        if(a[p1] == b[p2]) {
+            answer.add(a[p1++]);
+            p2++;
+        } else if(a[p1] < b[p2]) { // 핵심 Point. 작으면 작은쪽의 Pointer 를 증가
+            p1++;
+        } else { // 핵심 Point. 작으면 작은쪽의 Pointer 를 증가
+            p2++;
+        }
     }
+    return answer;
 }
 ```
 
