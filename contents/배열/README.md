@@ -234,3 +234,102 @@ public int solution(int n, int[][] grid) {
     return answer;
 }
 ```
+
+## 🔑 다중 포문
+
+### [봉우리](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/array/peak/Main.java)
+
+```java
+int[] dx={-1, 0, 1, 0};
+int[] dy={0, 1, 0, -1};
+
+/*
+   방향이 들어가는 문제는 아래 처럼 사용
+   int[] dx = {-1, 0, 1, 0};
+   int[] dy = {0, 1, 0, -1};
+   3중 포문 필요 : 격자판 i,k 에 대한 2중 포문 + 좌표 p 에 대한 포문
+ */
+public int solution(int n, int[][] grid) {
+    int answer=0;
+    for(int i=0; i<n; i++){ // 격자판 행 반복
+        for(int k=0; k<n; k++){ // 격자판 열 반복
+            boolean isPeak=true;
+            for(int p=0; p<4; p++){ // 봉우리를 구하기 위해 비교해야 하는 좌표 반복
+                int nx=i+dx[p];
+                int ny=k+dy[p];
+                if(nx>=0 && nx<n && ny>=0 && ny<n && grid[nx][ny]>=grid[i][k]){
+                    isPeak=false;
+                    break;
+                }
+            }
+            if(isPeak) answer++;
+        }
+    }
+    return answer;
+}
+```
+
+### [임시반장 정하기](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/array/classpresident/Main.java)
+
+```java
+/*
+    핵심 : 3중 포문
+    첫 번째 for : i 번째 학생
+    두 번째 for : j 번째 학생
+    세 번째 for : k 학년
+    즉, i 번째 학생의 k 학년 == j 번째 학생의 k 학년을 비교
+ */
+public int solution(int n, int[][] arr) {
+    int answer=0, max=0;
+    for(int i=1; i<=n; i++){ // 학생 i
+        int cnt=0;
+        for(int j=1; j<=n; j++){ // 학생 j
+            for(int k=1; k<=5; k++){ // 학년
+                if(arr[i][k]==arr[j][k]){ // i 번 학생의 k 학년과, j 번 학생의 k 학년이 같은지
+                    cnt++;
+                    break;
+                }
+            }
+        }
+        if(cnt>max){
+            max=cnt;
+            answer=i;
+        }
+    }
+    return answer;
+}
+```
+
+### [멘토링](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/array/mentoring/Main.java)
+
+```java
+/*
+     0 1 2 3  --> 등수
+   0 3 4 1 2
+   1 4 3 1 2
+   2 3 1 4 2
+   세로 0,1,2 는 테스트 번호
+   m 은 테스트 번호
+ */
+public int solution(int n, int m, int[][] arr){
+    int answer=0;
+    for(int i=1; i<=n; i++){
+        for(int j=1; j<=n; j++){
+            int cnt=0;
+            for(int k=0; k<m; k++){ // k 는 테스트 번호
+                int pi=0, pj=0;
+                for(int s=0; s<n; s++){ // s 는 등수
+                    if(arr[k][s]==i) pi=s; // pi 는 i 번째 학생의 등수
+                    if(arr[k][s]==j) pj=s; // pj 는 j 번째 학생의 등수수
+               }
+                if(pi<pj) cnt++;
+            }
+            if(cnt==m){ // Ex. (3, 1) -> m 번의 테스트가 다 통과되면 cnt 는 m 과 같아야 함함
+               answer++;
+                //System.out.println(i+" "+j);
+            }
+        }
+    }
+    return answer;
+}
+```
