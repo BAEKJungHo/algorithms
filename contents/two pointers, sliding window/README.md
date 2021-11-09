@@ -89,6 +89,56 @@ public List<Integer> solution(int n, int m, int[] a, int[] b) {
 }
 ```
 
+### [연속 부분 수열](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/twopointers/continuoussequence/Main.java)
+
+__아래 코드는 암기하는게 좋음__
+
+```java
+  public int solution(int n, int m, int[] arr) {
+      int answer=0, sum=0, lt=0;
+      for(int rt=0; rt<n; rt++){
+          sum+=arr[rt];
+          if(sum==m) answer++;
+          while(sum>=m){
+              sum-=arr[lt++];
+              if(sum==m) answer++;
+          }
+      }
+      return answer;
+  }
+```
+
+### [연속된 자연수의 합](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/twopointers/continuoussum/Main.java)
+
+```java
+// 1. 배열을 만든다 15 기준으로 연속된 자연수의 합이 15가 되려면 7,8 이 끝임 즉, 배열의 원소는 15/2+1만큼만 있으면 됌
+// 2. Two pointers 와 Sliding window 를 이용
+public int solution(int n) {
+    int size = n/2 + 1;
+    int[] arr = new int[size];
+    for(int i=0; i<size; i++) {
+        arr[i] = i+1;
+    }
+
+    // Two pointers 와 Sliding window 를 이용 : 암기
+    int answer = 0, sum = 0, lt = 0;
+    for(int rt=0; rt<size; rt++) {
+        sum += arr[rt];
+        if(sum == n) {
+            answer++;
+        }
+        while(sum >= n) {
+            sum -= arr[lt++];
+            if(sum == n) {
+                answer++;
+            }
+        }
+    }
+
+    return answer;
+}
+```
+
 # Sliding Window
 
 - 정의
@@ -102,3 +152,30 @@ public List<Integer> solution(int n, int m, int[] a, int[] b) {
 
 
 > Two Pointers, Sliding Window 알고리즘은 O(n^2) 을 O(n) 으로 해결하는 알고리즘이다. 문제에서 입력 값이 몇 십만 처럼 상당히 큰 경우에는 Two Pointers, Sliding Window 알고리즘을 사용하는 건 아닌지 확인해봐야 한다.
+
+## 🔑 기본 문제
+
+### [최대 매출](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/twopointers/slidingwindow/maxsales/Main.java)
+
+```java
+public int solution(int n, int m, int[] arr) {
+    int answer = 0, sum = 0;
+
+    // sum 초기화 : 연속된 m 개의 합
+    for(int i=0; i<m; i++) {
+        sum += arr[i];
+    }
+
+    // answer 초기화
+    answer = sum;
+
+    // m 부터 n 까지 반복문
+    // 기존 sum 을 더하는 이유는 공통요소가 들어있기 때문이다. (sum = 공통요소의 합 + 맨 뒷자리의 값)
+    // 즉, m 이후의 반복문에서는 공통요소의합 + m 이후의 값 - 기존 sum 의 맨 뒷자리의 값(i-m) 이된다.
+    for(int i=m; i<n; i++) {
+        sum += (arr[i] - arr[i-m]); // Point. 공통요소는 냅두고, 맨 뒷 자리 값만 뺀다.
+        answer = Math.max(answer, sum);
+    }
+    return answer;
+}
+```
