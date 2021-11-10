@@ -16,7 +16,7 @@
 -  서로 다른 key 가 같은 hash 값을 갖게 되는 경우 이를 `해시 충돌` 이라고 한다. 해시 충돌 발생 확률이 적을 수록 좋다.
 - Java HashMap에서 사용하는 방식은 `Separate Chaining` 이다.
 
-## Separate Chaining
+## Java8 의 Separate Chaining
 
 Separate Chaining 은 JDK 내부에서도 사용하고 있는 충돌 처리 방식인데, `Linked List 와 Tree(Red-Black Tree)` 를 이용하는 방식이다.
 두 개를 사용하는 기준은 data 가 6개 이하이면 linked list 를 사용하고 8개 이상이면 tree 를 사용한다.
