@@ -87,3 +87,123 @@ while(keys.hasNest()) {
 ```
 
 > entrySet() 과 keySet() 중 고민한다면, key 를 이용해 value 를 찾는 과정에서 시간이 많이 소요되므로 많은 양의 데이터를 가져와야 하는 경우에는 entrySet() 이 좋다. 성능은 약 20% ~ 200% 차이가 난다.
+
+## 🔑 기본 문제
+
+### [학급 회장](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/hashmap/classpresident/Main.java)
+
+- Point
+  - `getOrDefault(key, defaultValue)` 를 사용
+
+```java
+private static final Map<String, Integer> STUDENTS = new HashMap<>();
+
+static {
+    STUDENTS.put("A", 0);
+    STUDENTS.put("B", 0);
+    STUDENTS.put("C", 0);
+    STUDENTS.put("D", 0);
+    STUDENTS.put("E", 0);
+}
+
+public String solution(String s) {
+    String[] votes = s.split("");
+    for(int i=0; i<votes.length; i++) {
+        String key = votes[i];
+        Integer value = STUDENTS.get(key);
+        STUDENTS.put(key, value+1);
+    }
+    int max = 0;
+    String answer = "";
+    for(Map.Entry<String, Integer> entry : STUDENTS.entrySet()) {
+        if(max < entry.getValue()) {
+            max = entry.getValue();
+            answer = entry.getKey();
+        }
+    }
+    return answer;
+}
+
+// sol2 : getOrDefault
+public char solution2(String s) {
+    char answer=' ';
+    HashMap<Character, Integer> map=new HashMap<>();
+    for(char x : s.toCharArray()){
+        map.put(x, map.getOrDefault(x, 0)+1);
+    }
+    int max=Integer.MIN_VALUE;
+    for(char key : map.keySet()){
+        if(map.get(key)>max){
+            max=map.get(key);
+            answer=key;
+        }
+    }
+    return answer;
+}
+```
+
+### [아나그램(anagram)](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/hashmap/anagram/Main.java)
+
+```java
+public String solution(String s1, String s2) {
+    String[] arr1 = s1.split("");
+    String[] arr2 = s2.split("");
+
+    Map<String, Integer> map1 = new HashMap<>();
+    Map<String, Integer> map2 = new HashMap<>();
+    for(int i=0; i<arr1.length; i++) {
+        map1.put(arr1[i], map1.getOrDefault(arr1[i], 0)+1);
+        map2.put(arr2[i], map2.getOrDefault(arr2[i], 0)+1);
+    }
+
+    String answer = "YES";
+    for(String key : map1.keySet()) {
+        if(map2.get(key) != null) {
+            if(map1.get(key).intValue() != map2.get(key).intValue()) {
+                answer = "NO";
+                break;
+            }
+        }
+    }
+    return answer;
+}
+
+// sol2
+public String solution2(String s1, String s2) {
+    String answer="YES";
+    HashMap<Character, Integer> map=new HashMap<>();
+    for(char x : s1.toCharArray()){
+        map.put(x, map.getOrDefault(x, 0)+1);
+    }
+    for(char x : s2.toCharArray()){
+        if(!map.containsKey(x) || map.get(x)==0) return "NO";
+        map.put(x, map.get(x)-1);
+    }
+    return answer;
+}
+```
+
+### [매출액의 종류](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/hashmap/salestype/Main.java)
+
+- Point
+  - Sliding Window
+  - HashMap
+
+```java
+public ArrayList<Integer> solution(int n, int k, int[] arr){
+    ArrayList<Integer> answer = new ArrayList<>();
+    HashMap<Integer, Integer> HM = new HashMap<>();
+    for(int i=0; i<k-1; i++){
+        HM.put(arr[i], HM.getOrDefault(arr[i], 0)+1);
+    }
+    int lt=0;
+    for(int rt=k-1; rt<n; rt++){
+        HM.put(arr[rt], HM.getOrDefault(arr[rt], 0)+1);
+        answer.add(HM.size());
+        HM.put(arr[lt], HM.get(arr[lt])-1);
+        if(HM.get(arr[lt])==0) HM.remove(arr[lt]);
+        lt++;
+    }
+    return answer;
+}
+```
