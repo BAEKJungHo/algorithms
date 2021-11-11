@@ -207,3 +207,48 @@ public ArrayList<Integer> solution(int n, int k, int[] arr){
     return answer;
 }
 ```
+
+### [모든 아나그램 찾기](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/hashmap/anagram/allfind/Main.java)
+
+```java
+// 문자열 t 를 문자 배열로 만든다.
+// map 에 t 의 문자들을 담는다.
+// 문자열 s 를 문자 배열로 만든다.
+// 문자열 t 의 길이만큼 map2에 담는다.
+// sliding window 를 사용하여 비교한다.
+public int solution(String s, String t) {
+    int answer = 0;
+
+    char[] arr1 = t.toCharArray();
+    Map<Character, Integer> map1 = new HashMap<>();
+    for(int i=0; i<arr1.length; i++) {
+        map1.put(arr1[i], map1.getOrDefault(arr1[i], 0) + 1);
+    }
+
+    char[] arr2 = s.toCharArray();
+    Map<Character, Integer> map2 = new HashMap<>();
+    for(int i=0; i<t.length(); i++) {
+        map2.put(arr2[i], map2.getOrDefault(arr2[i], 0) + 1);
+    }
+
+    if(map1.equals(map2)) {
+        answer++;
+    }
+
+    // sliding window : rt lt  같이 증가
+    int lt = 0;
+    for(int rt=t.length(); rt<s.length(); rt++) {
+        map2.put(arr2[rt], map2.getOrDefault(arr2[rt], 0) + 1); // arr[rt] 가 map 에 값이 있으면 value 증가
+        map2.put(arr2[lt], map2.getOrDefault(arr2[lt], 0) - 1); // arr[lt] 가 map 에 값이 있으면 value 감소
+        if(map2.get(arr2[lt]) == 0) { // arr[lt] 에 대한 value 가 0 이면 원소 제거
+            map2.remove(arr2[lt]);
+        }
+        lt++;
+        if(map1.equals(map2)) {
+            answer++;
+        }
+    }
+
+    return answer;
+}
+```
