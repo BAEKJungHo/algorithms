@@ -57,10 +57,10 @@ System.out.println(set.lower(3)); // 입력값보다 작은 데이터중 최대�
 System.out.println(treeSet.floor(76)); // (=75)
 System.out.println(treeSet.ceiling(76)); // (=90)
 
-// 제일 낮은 객체를 꺼내고 컬렉션에서 제거함
+// 제일 낮은 객체를 꺼내고 컬렉션에서 제거함 : 컬렉션에 값이 없으면 null 반환
 treeSet.pollFirst(); 
 
-// 제일 높은 객체를 꺼내고 컬렉션에서 제거함
+// 제일 높은 객체를 꺼내고 컬렉션에서 제거함 : 컬렉션에 값이 없으면 null 반환
 treeSet.pollLast();
 
 Iterator iter = set.iterator();	// Iterator 사용
@@ -75,6 +75,37 @@ while(iter.hasNext()) { // 값이 있으면 true 없으면 false
 ```java
 TreeSet<Integer> set = new TreeSet<>(Comparator.comparing(Integer::intValue).reversed()); // 내림차순 정렬
 TreeSet<Integer> set1 = new TreeSet<>(); // 오름차순 정렬
+```
+
+## 기본 문제
+
+### [K 번째 큰 수]()
+
+```java
+public int solution(int n, int m, int[] arr) {
+	int answer = -1;
+	TreeSet<Integer> set = new TreeSet<>(Comparator.comparing(Integer::intValue).reversed());
+	for(int i=0; i<n; i++) {
+	    for(int k=i+1; k<n; k++) {
+		for(int p=k+1; p<n; p++) {
+		    set.add(arr[i] + arr[k] + arr[p]);
+		}
+	    }
+	}
+	for(int i=0; i<m; i++) {
+	    if(i == m-1) {
+		Integer top = set.pollFirst();
+		if(top != null) {
+		    return top;
+		} else {
+		    return -1;
+		}
+	    } else {
+		set.pollFirst();
+	    }
+	}
+	return answer;
+}
 ```
 
 ## References
