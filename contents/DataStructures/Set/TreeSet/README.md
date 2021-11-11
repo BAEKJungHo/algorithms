@@ -57,14 +57,14 @@ System.out.println(set.lower(3));// 입력값보다 작은 데이터중 최대�
 System.out.println(treeSet.floor(76));//(=75)
 System.out.println(treeSet.ceiling(76));//(=90)
 
-//제일 낮은 객체를 꺼내고 컬렉션에서 제거함
+// 제일 낮은 객체를 꺼내고 컬렉션에서 제거함
 treeSet.pollFirst(); 
 
-//제일 높은 객체를 꺼내고 컬렉션에서 제거함
+// 제일 높은 객체를 꺼내고 컬렉션에서 제거함
 treeSet.pollLast();
 
 Iterator iter = set.iterator();	// Iterator 사용
-while(iter.hasNext()) {//값이 있으면 true 없으면 false
+while(iter.hasNext()) { // 값이 있으면 true 없으면 false
     System.out.println(iter.next());
 }
 ```
