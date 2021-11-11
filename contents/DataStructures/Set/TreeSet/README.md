@@ -77,9 +77,9 @@ TreeSet<Integer> set = new TreeSet<>(Comparator.comparing(Integer::intValue).rev
 TreeSet<Integer> set1 = new TreeSet<>(); // 오름차순 정렬
 ```
 
-## 기본 문제
+## 🔑 기본 문제
 
-### [K 번째 큰 수]()
+### [K 번째 큰 수](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/treeset/kmax/Main.java)
 
 ```java
 public int solution(int n, int m, int[] arr) {
