@@ -41,12 +41,12 @@ set.clear(); // 모든 값 제거
 - 값 출력
 
 ```java
-TreeSet<Integer> set = new TreeSet<Integer>(Arrays.asList(4,2,3));//초기값 지정
+TreeSet<Integer> set = new TreeSet<Integer>(Arrays.asList(4,2,3)); // 초기값 지정
 System.out.println(set); // 전체출력 [2,3,4]
-System.out.println(set.first());// 최소값 출력
-System.out.println(set.last());// 최대값 출력
-System.out.println(set.higher(3));// 입력값보다 큰 데이터중 최소값 출력 없으면 null
-System.out.println(set.lower(3));// 입력값보다 작은 데이터중 최대값 출력 없으면 null
+System.out.println(set.first()); // 최소값 출력
+System.out.println(set.last()); // 최대값 출력
+System.out.println(set.higher(3)); // 입력값보다 큰 데이터중 최소값 출력 없으면 null
+System.out.println(set.lower(3)); // 입력값보다 작은 데이터중 최대값 출력 없으면 null
 
 /*
  * 해당 객체가 존재하면 그 객체를 리턴, 
@@ -54,8 +54,8 @@ System.out.println(set.lower(3));// 입력값보다 작은 데이터중 최대�
  * 
  * ceiling()은 그 반대
  */
-System.out.println(treeSet.floor(76));//(=75)
-System.out.println(treeSet.ceiling(76));//(=90)
+System.out.println(treeSet.floor(76)); // (=75)
+System.out.println(treeSet.ceiling(76)); // (=90)
 
 // 제일 낮은 객체를 꺼내고 컬렉션에서 제거함
 treeSet.pollFirst(); 
