@@ -47,11 +47,34 @@ System.out.println(set.first());// 최소값 출력
 System.out.println(set.last());// 최대값 출력
 System.out.println(set.higher(3));// 입력값보다 큰 데이터중 최소값 출력 없으면 null
 System.out.println(set.lower(3));// 입력값보다 작은 데이터중 최대값 출력 없으면 null
-		
+
+/*
+ * 해당 객체가 존재하면 그 객체를 리턴, 
+ * 해당객체가 없으면 바로 아래 객체를 리턴
+ * 
+ * ceiling()은 그 반대
+ */
+System.out.println(treeSet.floor(76));//(=75)
+System.out.println(treeSet.ceiling(76));//(=90)
+
+//제일 낮은 객체를 꺼내고 컬렉션에서 제거함
+treeSet.pollFirst(); 
+
+//제일 높은 객체를 꺼내고 컬렉션에서 제거함
+treeSet.pollLast();
+
 Iterator iter = set.iterator();	// Iterator 사용
 while(iter.hasNext()) {//값이 있으면 true 없으면 false
     System.out.println(iter.next());
 }
+```
+
+- TreeSet 을 이용한 정렬
+	- 기본 정렬 : natural ordering 오름차순 정렬이 기본이다.
+
+```java
+TreeSet<Integer> set = new TreeSet<>(Comparator.comparing(Integer::intValue).reversed()); // 내림차순 정렬
+TreeSet<Integer> set1 = new TreeSet<>(); // 오름차순 정렬
 ```
 
 ## References
