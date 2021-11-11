@@ -6,7 +6,7 @@
 - 이진 탐색 트리는 `추가, 삭제`에는 시간이 조금 더 걸리지만 `정렬, 검색`에 높은 성능을 보이는 자료구조이다. 그렇기에 HashSet 보다 데이터의 추가와 삭제는 시간이 더 걸리지만 검색과 정렬에는 유리하다.
 - TreeSet은 데이터를 저장할 시 이진탐색트리(BinarySearchTree)의 형태로 데이터를 저장하기에 기본적으로 `natural ordering` 를 지원하며 `생성자의 매개변수로 Comparator 객체`를 입력하여 정렬 방법을 임의로 지정해 줄 수도 있다.
 
-## natural ordering
+## Natural Ordering
 
 자연 순서(natural ordering)는 쉽게 말해 작은 수에서 큰 수, 알파벳 순, 가나다 순서대로 정렬하는 것을 의미합니다.
 
