@@ -85,6 +85,7 @@ TreeSet<Integer> set1 = new TreeSet<>(); // 오름차순 정렬
 public int solution(int n, int m, int[] arr) {
 	int answer = -1;
 	TreeSet<Integer> set = new TreeSet<>(Comparator.comparing(Integer::intValue).reversed());
+	// TreeSet<Integer> set = new TreeSet<>(Collections.reverseOrder());
 	for(int i=0; i<n; i++) {
 	    for(int k=i+1; k<n; k++) {
 		for(int p=k+1; p<n; p++) {
