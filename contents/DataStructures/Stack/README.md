@@ -63,3 +63,21 @@ public String solution2(String str) {
     return answer;
 }
 ```
+
+### [괄호 문자 제거](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/stack/removeparenthesis/Main.java)
+
+```java
+// 문자들을 넣고 닫는 괄호를 만나면, 여는 괄호까지만 제거
+public String solution(String s) {
+    String answer="";
+    Stack<Character> stack=new Stack<>();
+    for(char x : s.toCharArray()){
+        if(x == CLOSE){
+            while(stack.pop() != OPEN); // 핵심 point
+        }
+        else stack.push(x);
+    }
+    for(int i=0; i<stack.size(); i++) answer+=stack.get(i);
+    return answer;
+}
+```
