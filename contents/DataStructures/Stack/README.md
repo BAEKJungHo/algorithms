@@ -51,10 +51,10 @@ public String solution2(String str) {
     String answer="YES";
     Stack<Character> stack=new Stack<>();
     for(char x : str.toCharArray()){
-        if(x=='(') stack.push(x);
+        if(x=='(') stack.push(x); // 여는 괄호를 만나면 stack 에 push
         else{
             if(stack.isEmpty()) return "NO";
-            stack.pop();
+            stack.pop(); // 닫는 괄호를 만나면 stack 에 pop
         }
     }
     if(!stack.isEmpty()) return "NO";
