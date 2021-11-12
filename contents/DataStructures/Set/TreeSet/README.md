@@ -76,7 +76,8 @@ while(iter.hasNext()) { // 값이 있으면 true 없으면 false
 
 ```java
 TreeSet<Integer> set = new TreeSet<>(Comparator.comparing(Integer::intValue).reversed()); // 내림차순 정렬
-TreeSet<Integer> set1 = new TreeSet<>(); // 오름차순 정렬
+TreeSet<Integer> set1 = new TreeSet<>(Collections.reverseOrder()); // 내림차순 정렬
+TreeSet<Integer> set2 = new TreeSet<>(); // 오름차순 정렬
 ```
 
 ## 🔑 기본 문제
