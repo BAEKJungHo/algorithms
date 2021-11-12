@@ -26,3 +26,22 @@
 * `search(Object o)`
   * 해당 Object의 위치를 반환
   * Stack의 top 위치는 1, 해당 Object가 없으면 -1을 반환
+
+## 🔑 기본 문제
+
+### [올바른 괄호 문자열 (VPS, Valid Parenthesis String) 판단하기]()
+
+```java
+/* 1. '(' ')'의 개수가 동일, 2. '('의 개수가 더 많으면 안됨 */
+int cnt = 0;
+for (int i=0; i<string.length(); i++){
+    if(string.charAt(i) == '('){
+        cnt++;
+    } else {
+        cnt--;
+        if (cnt == -1)
+            break;
+    }
+}
+System.out.println(cnt == 0 ? "YES" : "NO");
+```
