@@ -67,6 +67,9 @@ public String solution2(String str) {
 ### [괄호 문자 제거](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/stack/removeparenthesis/Main.java)
 
 ```java
+private static final char OPEN = '(';
+private static final char CLOSE = ')';
+
 // 문자들을 넣고 닫는 괄호를 만나면, 여는 괄호까지만 제거
 public String solution(String s) {
     String answer="";
