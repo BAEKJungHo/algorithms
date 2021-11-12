@@ -32,7 +32,7 @@ public class Main {
         String answer="";
         Stack<Character> stack=new Stack<>();
         for(char x : s.toCharArray()){
-            if(x== CLOSE){
+            if(x == CLOSE){
                 while(stack.pop() != OPEN);
             }
             else stack.push(x);
