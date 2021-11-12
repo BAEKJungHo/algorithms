@@ -29,7 +29,7 @@
 
 ## 🔑 기본 문제
 
-### [올바른 괄호 문자열 (VPS, Valid Parenthesis String) 판단하기]()
+### [올바른 괄호 문자열 (VPS, Valid Parenthesis String) 판단하기](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/stack/vps/Main.java)
 
 ```java
 /* 1. '(' ')'의 개수가 동일, 2. '('의 개수가 더 많으면 안됨 */
@@ -44,4 +44,20 @@ for (int i=0; i<string.length(); i++){
     }
 }
 System.out.println(cnt == 0 ? "YES" : "NO");
+```
+
+```java
+public String solution2(String str) {
+    String answer="YES";
+    Stack<Character> stack=new Stack<>();
+    for(char x : str.toCharArray()){
+        if(x=='(') stack.push(x);
+        else{
+            if(stack.isEmpty()) return "NO";
+            stack.pop();
+        }
+    }
+    if(!stack.isEmpty()) return "NO";
+    return answer;
+}
 ```
