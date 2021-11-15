@@ -48,6 +48,12 @@ queue.peek(); // 첫 번째 값 출력
 queue.element(); // peek 과 동일하지만 원소가 없다면 NoSuchElementException 발생
 ```
 
+### 값이 존재하는 지 확인
+
+```java
+queue.contains(x) // 값 이 있으면 true 없으면 false
+```
+
 ### 정리
 
 - __Enqueue__
@@ -65,3 +71,27 @@ queue.element(); // peek 과 동일하지만 원소가 없다면 NoSuchElementEx
     - element()
   - 값 반환
     - peek()
+
+## 🔑 기본 문제
+
+### [공주 구하기](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/queue/saveprincess/Main.java)
+
+```java
+public int solution(int n, int k){
+    int answer = 0;
+    Queue<Integer> Q = new LinkedList<>();
+    for(int i=1; i<=n; i++) {
+        Q.offer(i);
+    }
+
+    while(!Q.isEmpty()) {
+        for(int i=1; i<k; i++) { // 제거 대상 전 까지
+            Q.offer(Q.poll()); // k 가 3이면 1, 2를 뽑아서 없앤 후, 다시 끝에 붙여 넣는다. -> 34567812
+        }
+        Q.poll(); // 맨 앞하나를 꺼낸다. (i == k) 34567812 -> 4567812
+        if(Q.size()==1) answer = Q.poll();
+    }
+
+    return answer;
+}
+```
