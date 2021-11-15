@@ -112,8 +112,8 @@ public int solution(int[][] board, int[] moves){
 ### [후위식 연산(postfix)](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/stack/postfix/Main.java)
 
 - Point
- - 피연산자를 만나면 스택에 넣는다.
- - 연산자를 만나면 연산식을 만들기 위해 스택에서 피연산자 두 개를 꺼내어 계산 후 그 결과를 스택에 넣는다.
+  - 피연산자를 만나면 스택에 넣는다.
+  - 연산자를 만나면 연산식을 만들기 위해 스택에서 피연산자 두 개를 꺼내어 계산 후 그 결과를 스택에 넣는다.
 
 ```java
 private static final String PLUS = "+";
