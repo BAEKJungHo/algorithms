@@ -84,3 +84,66 @@ public String solution(String s) {
     return answer;
 }
 ```
+
+### [카카오 크레인 뽑기](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/stack/kakaocrain/Main.java)
+
+```java
+public int solution(int[][] board, int[] moves){
+    int answer=0;
+    Stack<Integer> stack = new Stack<>();
+    for(int pos : moves){
+        for(int i=0; i<board.length; i++){
+            if(board[i][pos-1]!=0){
+                int tmp=board[i][pos-1];
+                board[i][pos-1]=0;
+                if(!stack.isEmpty() && tmp==stack.peek()){
+                    answer+=2;
+                    stack.pop();
+                }
+                else stack.push(tmp);
+                break;
+            }
+        }
+    }
+    return answer;
+}
+```
+
+### [후위식 연산(postfix)](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/stack/postfix/Main.java)
+
+- Point
+ - 피연산자를 만나면 스택에 넣는다.
+ - 연산자를 만나면 연산식을 만들기 위해 스택에서 피연산자 두 개를 꺼내어 계산 후 그 결과를 스택에 넣는다.
+
+```java
+private static final String PLUS = "+";
+private static final String MINUS = "-";
+private static final String DIVIDE = "/";
+private static final String MULTIPLY = "*";
+
+// 1. 피연산자(숫자)를 만나면 STACK 에 PUSH
+// 2. 연산자를 만나면 STACK 에서 POP (연산식이 될 때 까지)
+        // 연산식은 피연산자가 2개 필요
+// 3. 연산 결과를 다시 STACK 에 PUSH
+public int solution(String postfix) {
+    Stack<Integer> stack = new Stack<>();
+    for(String x : postfix.split("")) {
+        if(PLUS.equals(x)) {
+            stack.push(stack.pop() + stack.pop());
+        } else if(MINUS.equals(x)) {
+            int first = stack.pop();
+            int second = stack.pop();
+            stack.push(second - first);
+        } else if(DIVIDE.equals(x)) {
+            int first = stack.pop();
+            int second = stack.pop();
+            stack.push(second / first);
+        } else if(MULTIPLY.equals(x)) {
+            stack.push(stack.pop() * stack.pop());
+        } else {
+            stack.push(Integer.parseInt(x));
+        }
+    }
+    return stack.pop();
+}
+```
