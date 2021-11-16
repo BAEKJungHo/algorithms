@@ -122,4 +122,4 @@ public String solution(String mustLectures, String lectures) {
 
 ### [응급실](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/queue/emergencyroom/Main.java)
 
-링크 
+링크 참고
