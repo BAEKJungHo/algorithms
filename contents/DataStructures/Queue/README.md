@@ -95,3 +95,31 @@ public int solution(int n, int k){
     return answer;
 }
 ```
+
+### [교육과정 설계](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/queue/teach/Main.java)
+
+```java
+// 핵심 Point : 필수과목 Queue 와 수업설계 Queue 를 만들어서 같으면 YES 다르면 NO
+    // Queue 의 contains 함수 사용
+// 수업이 필수과목 Queue 에 들어있으면 수업설계 Queue 에 넣기
+public String solution(String mustLectures, String lectures) {
+    Queue<Character> mustLecturesQueue = new LinkedList<>();
+    for(int i=0; i<mustLectures.length(); i++) {
+        mustLecturesQueue.offer(mustLectures.charAt(i));
+    }
+
+    Queue<Character> lecturesQueue = new LinkedList<>();
+    for(int i=0; i<lectures.length(); i++) {
+        Character lecture = lectures.charAt(i);
+        if(mustLecturesQueue.contains(lecture)) {
+            lecturesQueue.offer(lecture);
+        }
+    }
+
+    return mustLecturesQueue.equals(lecturesQueue) ? "YES" : "NO";
+}
+```
+
+### [응급실](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/queue/emergencyroom/Main.java)
+
+링크 
