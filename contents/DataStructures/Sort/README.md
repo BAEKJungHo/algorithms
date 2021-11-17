@@ -1,6 +1,6 @@
 # 정렬(Sorting)
 
-![IMAGES](./images/sort.JPG)
+![IMAGES](../images/sort.JPG)
 
 # 선택 정렬(Selection Sort)
 
