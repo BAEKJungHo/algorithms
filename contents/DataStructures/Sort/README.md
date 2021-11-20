@@ -114,6 +114,189 @@ public int[] solution(int[] arr) {
 }
 ```
 
+### [LRU(Least Recently Used)](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/sorting/lru/Main.java)
+
+```java
+// 삽입정렬 응용 문제 -> list.set(2, 5) 이런식으로 할 순있지만 직접 구현하는게 더 좋음
+// 손 코딩으로도 나올 수 있는 문제
+public int[] solution(int cacheSize, int[] arr) {
+    int[] cache = new int[cacheSize];
+    for(int x : arr) { // 작업 번호 반복
+        int position = -1;
+        for(int i=0; i<cacheSize; i++) {
+            if (x == cache[i]) { // 작업 번호가 cache 안에 있는 경우
+                position = i; // 해당 인덱스를 설정
+            }
+        }
+        if(isCacheMiss(position)) { // cache miss -> 새로들어갈원소의 맨 앞 인덱스 0 을 제외하고 값을 한 칸씩 뒤로 이동
+            for(int i=cacheSize-1; i>=1; i--) {
+                cache[i] = cache[i-1];
+            }
+        } else { // cache hit
+            for(int i=position; i>=1; i--) { // 설정된 인덱스 부터 맨 앞 인덱스 0 을 제외하고 값을 한 칸씩 뒤로 이동
+                cache[i] = cache[i-1];
+            }
+        }
+        cache[0] = x; // 현재 작업 번호는 항상 맨 앞에 삽입
+    }
+    return cache;
+}
+```
+
+## 🔑 기본 문제
+
+### [중복 확인](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/sorting/checkduplicate/Main.java)
+
+```java
+public String solution(int[] arr) {
+    Queue<Integer> Q = new LinkedList<>();
+    for(int i=0; i<arr.length; i++) {
+        if(Q.contains(arr[i])) {
+            return "D";
+        }
+        Q.offer(arr[i]);
+    }
+    return "U";
+}
+
+// 정렬 후 인접한 두 원소 끼리 비교
+public String solution(int n, int[] arr){
+    String answer="U";
+    Arrays.sort(arr);
+    for(int i=0; i<n-1; i++){
+        if(arr[i] == arr[i+1]){
+            answer="D";
+            break;
+        }
+    }
+    return answer;
+}
+```
+
+### [장난꾸러기](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/sorting/mischievous/Main.java)
+
+```java
+public ArrayList<Integer> solution(int[] arr) {
+    ArrayList<Integer> answer=new ArrayList<>();
+    int[] tmp = arr.clone();
+    Arrays.sort(tmp);
+    for(int i=0; i<arr.length; i++){
+        if(arr[i] != tmp[i]) {
+            answer.add(i+1);
+        }
+    }
+    return answer;
+}
+```
+
+### [좌표 정렬](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/sorting/coordinatesort/Main.java)
+
+- Point
+  - Comparable 을 사용한 객체 정렬
+
+```java
+class Coordinate implements Comparable<Coordinate> {
+    private int x;
+    private int y;
+
+    public Coordinate(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    @Override
+    public String toString() {
+        return this.x + " " + this.y;
+    }
+
+    @Override
+    public int compareTo(Coordinate o) {
+        if(this.x == o.x) {
+            return this.y-o.getY();
+        } else {
+            return this.x- o.getX();
+        }
+    }
+}
+
+public class Main {
+
+    public List<Coordinate> solution(List<Coordinate> coordinates) {
+        coordinates.sort(Coordinate::compareTo);
+        return coordinates;
+    }
+
+    public static void main(String[] args) {
+        Main T = new Main();
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        List<Coordinate> coordinates = new ArrayList<>();
+        for(int i=0; i<n; i++) {
+            int x = sc.nextInt();
+            int y = sc.nextInt();
+            coordinates.add(new Coordinate(x, y));
+        }
+        for(Coordinate coordinate : T.solution(coordinates)) {
+            System.out.println(coordinate.toString());
+        }
+    }
+
+}
+```
+
+## 🔑 [이분 검색](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/sorting/binarysearch/Main.java)
+
+```java
+/**
+ * # 이분 검색(Binary Search)
+ *
+ * 설명
+ * 임의의 N개의 숫자가 입력으로 주어집니다. N개의 수를 오름차순으로 정렬한 다음 N개의 수 중 한 개의 수인 M이 주어지면
+ * 이분검색으로 M이 정렬된 상태에서 몇 번째에 있는지 구하는 프로그램을 작성하세요. 단 중복값은 존재하지 않습니다.
+ *
+ * 입력
+ * 첫 줄에 한 줄에 자연수 N(3<=N<=1,000,000)과 M이 주어집니다.
+ * 두 번째 줄에 N개의 수가 공백을 사이에 두고 주어집니다.
+ *
+ * 출력
+ * 첫 줄에 정렬 후 M의 값의 위치 번호를 출력한다.
+ *
+ * 예시 입력 1
+ * 8 32
+ * 23 87 65 12 57 32 99 81
+ *
+ * 예시 출력 1
+ * 3
+ */
+ ```
+
+```java
+ // Binary Search
+public int solution(int n, int m, int[] arr) {
+    int answer = 0;
+    Arrays.sort(arr);
+    int lt = 0, rt = n-1;
+    while(lt <= rt){
+        int mid = (lt + rt) / 2;
+        if(arr[mid] == m) {
+            answer = mid + 1;
+            break;
+        }
+        if(arr[mid] > m) rt = mid - 1; // 찾고자하는 값이 더 작은 쪽에 있다면 검색범위 큰 쪽을 아예 날린다. = mid - 1;
+        else lt = mid + 1; // 찾고자하는 값이 더 큰 쪽에 있다면 검색범위 작은 쪽을 아예 날린다.
+    }
+    return answer;
+}
+```
+
 ## Reference
 
 > https://gmlwjd9405.github.io
