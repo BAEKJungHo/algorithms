@@ -279,7 +279,7 @@ public class Main {
  ```
 
 ```java
- // Binary Search
+// Binary Search
 public int solution(int n, int m, int[] arr) {
     int answer = 0;
     Arrays.sort(arr);
