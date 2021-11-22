@@ -49,7 +49,7 @@ public int solution(int n, int m, int[] arr) {
 
 # 결정 알고리즘
 
-- 문제 : 뮤직비디오(결정알고리즘)
+## [뮤직비디오(결정알고리즘)](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/searching/musicvideo/Main.java)
 
 ```
  * 설명
@@ -74,3 +74,77 @@ public int solution(int n, int m, int[] arr) {
 lt 가 1 이고 rt 가 10000 이라고 할 때 이분검색을 하면 중앙은 5000 이 된다. 5000 이라는 값안에 DVD 의 최소 용량 크기가 무조건 포함된다. 물론 5000 은 답에 비해 너무 큰 값이지만 어쨋든 포함이 된다는 것이 중요하다.
 
 위 문제 입력 예시 `1 2 3 4 5 6 7 8 9` 기준으로 lt, rt 값을 정하면 lt 는 9가 되며, rt 는 45가된다.
+
+```java
+// 두 말의 최대 거리(dist)를 기준으로 배치할 수 있는 말의 마리 수
+public int count(int[] arr, int dist){
+    int cnt=1;
+    int endPosition=arr[0];
+    for(int i=1; i<arr.length; i++){
+        if(arr[i]-endPosition>=dist){
+            cnt++;
+            endPosition=arr[i];
+        }
+    }
+    return cnt; // 배치한 말의 마리 수
+}
+
+/**
+ * @param n 배열 크기
+ * @param c 배치하고싶은 말의 마리 수
+ * @param arr 마구간 좌표
+ */
+public int solution(int n, int c, int[] arr){
+    int answer=0;
+    Arrays.sort(arr); // 마구간 좌표 오름차순 정렬
+    int lt=1;
+    int rt=arr[n-1]; // 마지막 인덱스 값
+    while(lt<=rt){
+        int mid=(lt+rt)/2; // 두 말의 최대 거리
+        if(count(arr, mid)>=c){ // 배치한 말의 마리수 >= 배치 하고 싶은 말의 마리 수
+            answer=mid;
+            lt=mid+1;
+        }
+        else rt=mid-1;
+    }
+    return answer;
+}
+```
+
+## [마구간 정하기](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/searching/decisionstable/Main.java)
+
+```java
+// 두 말의 최대 거리(dist)를 기준으로 배치할 수 있는 말의 마리 수
+public int count(int[] arr, int dist){
+    int cnt=1;
+    int endPosition=arr[0];
+    for(int i=1; i<arr.length; i++){
+        if(arr[i]-endPosition>=dist){
+            cnt++;
+            endPosition=arr[i];
+        }
+    }
+    return cnt; // 배치한 말의 마리 수
+}
+
+/**
+ * @param n 배열 크기
+ * @param c 배치하고싶은 말의 마리 수
+ * @param arr 마구간 좌표
+ */
+public int solution(int n, int c, int[] arr){
+    int answer=0;
+    Arrays.sort(arr); // 마구간 좌표 오름차순 정렬
+    int lt=1;
+    int rt=arr[n-1]; // 마지막 인덱스 값
+    while(lt<=rt){
+        int mid=(lt+rt)/2; // 두 말의 최대 거리
+        if(count(arr, mid)>=c){ // 배치한 말의 마리수 >= 배치 하고 싶은 말의 마리 수
+            answer=mid;
+            lt=mid+1;
+        }
+        else rt=mid-1;
+    }
+    return answer;
+}
+```
