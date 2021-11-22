@@ -1,7 +1,6 @@
-package inflearn.sorting.binarysearch;
+package inflearn.searching.binarysearch;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * # 이분 검색(Binary Search)
