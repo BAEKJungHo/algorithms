@@ -46,3 +46,13 @@ public int solution(int n, int m, int[] arr) {
     return answer;
 }
 ```
+
+# 결정 트리 알고리즘(Decision Tree Algorithm)
+
+결정 트리는 `의사결정트리` 혹은 `의사결정나무`라고도 한다. 분류(Classification)와 회귀(Regression) 모두 가능한 지도 학습 모델 중 하나이다.
+
+결정 트리는 스무고개 하듯이 예/아니오 질문을 이어가며 학습합니다.
+
+## References
+
+> https://bkshin.tistory.com/entry/%EB%A8%B8%EC%8B%A0%EB%9F%AC%EB%8B%9D-4-%EA%B2%B0%EC%A0%95-%ED%8A%B8%EB%A6%ACDecision-Tree
