@@ -53,6 +53,12 @@ public int solution(int n, int m, int[] arr) {
 
 결정 트리는 스무고개 하듯이 예/아니오 질문을 이어가며 학습합니다.
 
+![IMAGES](../images/decisiontree.png)
+
+이렇게 특정 기준(질문)에 따라 데이터를 구분하는 모델을 결정 트리 모델이라고 합니다. 한번의 분기 때마다 변수 영역을 두 개로 구분합니다. 결정 트리에서 질문이나 정답을 담은 네모 상자를 노드(Node)라고 합니다. 맨 처음 분류 기준 (즉, 첫 질문)을 `Root Node` 라고 하고, 맨 마지막 노드를 `Terminal Node` 혹은 `Leaf Node` 라고 합니다.
+
+![IMAGES](../images/decisiontree2.png)
+
 ## References
 
 > https://bkshin.tistory.com/entry/%EB%A8%B8%EC%8B%A0%EB%9F%AC%EB%8B%9D-4-%EA%B2%B0%EC%A0%95-%ED%8A%B8%EB%A6%ACDecision-Tree
