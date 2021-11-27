@@ -1,4 +1,4 @@
-package thisiscodingtest.changeMoney;
+package thisiscodingtest.chapter3.changeMoney;
 
 // 거스름돈 : Greedy
 // 가장 큰 화폐 단위부터 돈을 거슬러 준다.
