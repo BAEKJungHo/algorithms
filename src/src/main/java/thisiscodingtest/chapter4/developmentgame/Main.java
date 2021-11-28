@@ -50,6 +50,27 @@ class Position {
         System.out.println("뒤로 이동 후 위치 // x : " + x + " y : " + y + " 방향 : " + direction.name());
     }
 
+    /**
+     * 뒤로 이동해야하는 조건(사방이 맵이탈 or 바다 or 방문했던 곳)
+     * @param currentX 캐릭터의 현재 X 좌표
+     * @param currentY 캐릭터의 현재 Y 좌표
+     * @param map 맵
+     * @return 종료 여부
+     */
+    public boolean validateToBack() {
+        boolean endFlag = false;
+        for(Strategy strategy : Strategy.values()) {
+            int x = this.x + strategy.getX();
+            int y = this.y + strategy.getY();
+            if(MapInfo.isLeaving(x, y) || MapInfo.isSea(map[x][y]) || MapInfo.isVisited(map[x][y])) {
+                endFlag = true;
+            } else { // 방문을 아직 안한 곳인 경우
+                return false;
+            }
+        }
+        return endFlag;
+    }
+
     // X, Y 좌표 복구
     public void restore() {
         x = initX;
@@ -72,6 +93,10 @@ class Position {
 
     public int getAnswer() {
         return answer;
+    }
+
+    public int[][] getMap() {
+        return map;
     }
 
     private void changeDirection() {
@@ -224,9 +249,10 @@ public class Main {
         Position position = new Position(x, y, direction, map.clone());
         while(true) {
             position.move();
-            if(validateToBack(position.getX(), position.getY(), map)) { // 이동 후 -> 뒤로 이동해야하는지 판단
+            if(position.validateToBack()) { // 이동 후 -> 뒤로 이동해야하는지 판단
                 position.back();
-                int mapInfo = map[position.getX()][position.getY()];
+                int[][] myMap = position.getMap();
+                int mapInfo = myMap[position.getX()][position.getY()];
                 if(MapInfo.isLeaving(position.getX(), position.getY()) || MapInfo.isSea(mapInfo)) { // 맵이탈 or 바다이면 종료
                     break;
                 } else if(MapInfo.isVisited(mapInfo)) { // 방문 했던 곳인 경우
@@ -236,27 +262,6 @@ public class Main {
         }
 
         return position.getAnswer();
-    }
-
-    /**
-     * 뒤로 이동해야하는 조건(사방이 맵이탈 or 바다 or 방문했던 곳)
-     * @param currentX 캐릭터의 현재 X 좌표
-     * @param currentY 캐릭터의 현재 Y 좌표
-     * @param map 맵
-     * @return 종료 여부
-     */
-    private static boolean validateToBack(int currentX, int currentY, int[][] map) {
-        boolean endFlag = false;
-        for(Strategy strategy : Strategy.values()) {
-            int x = currentX + strategy.getX();
-            int y = currentY + strategy.getY();
-            if(MapInfo.isLeaving(x, y) || MapInfo.isSea(map[x][y]) || MapInfo.isVisited(map[x][y])) {
-                endFlag = true;
-            } else { // 방문을 아직 안한 곳인 경우
-                return false;
-            }
-        }
-        return endFlag;
     }
 
     public static void main(String[] args) {
