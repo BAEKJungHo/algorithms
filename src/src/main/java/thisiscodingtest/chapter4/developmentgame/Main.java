@@ -4,37 +4,60 @@ import java.util.Scanner;
 
 // 캐릭터의 위치 정보
 class Position {
-    private int x;
-    private int y;
+    private int x; // 현재 x 좌표
+    private int y;  // 현재 y 좌표
     private int initX;
     private int initY;
+    private int[][] map; // 자신이 방문한 map 의 정보
+    private int answer = 1; // 자신이 방문한 칸의 횟수, 현재위치는 방문한 상태
     private Direction direction;
 
-    public Position(int x, int y, int directionType) {
+    public Position(int x, int y, int directionType, int[][] map) {
         this.x = x;
         this.y = y;
         this.initX = x;
         this.initY = y;
         this.direction = Direction.findByType(directionType);
+        this.map = map;
     }
 
+    // 이동
     public void move() {
         System.out.println("이동 전 위치 // x : " + x + " y : " + y + " 방향 : " + direction.name());
-        Strategy strategy = Strategy.findByDirection(direction);
+        Strategy strategy = Strategy.findForMove(direction);
         x += strategy.getX();
         y += strategy.getY();
         changeDirection(); // 방향은 맵의 정보에 상관없이 이동할 때마다 바뀜
         System.out.println("이동 후 위치 // x : " + x + " y : " + y + " 방향 : " + direction.name());
+
+        int mapInfo = map[x][y];
+        if(MapInfo.isLeaving(x, y) || MapInfo.isSea(mapInfo) || MapInfo.isVisited(mapInfo)) { // 맵이탈 or 바다 or 방문 했던 곳 이면 방향만 바꾸고 현재 위치 자리 고수
+            restore();
+        } else { // 방문하지 않은 육지인 경우
+            System.out.println("방문!!! 현재 좌표 // x :" + x + " y : " + y);
+            map[x][y] = MapInfo.VISITED.getType();
+            updateInitCoordinates();
+            answer++;
+        }
     }
 
-    // X, Y 좌표 초기화
-    public void clearXY() {
+    // 뒤로 이동 : 방향은 유지
+    public void back() {
+        System.out.println("뒤로 이동 전 위치 // x : " + x + " y : " + y + " 방향 : " + direction.name());
+        Strategy strategy = Strategy.findForBack(direction);
+        x += strategy.getX();
+        y += strategy.getY();
+        System.out.println("뒤로 이동 후 위치 // x : " + x + " y : " + y + " 방향 : " + direction.name());
+    }
+
+    // X, Y 좌표 복구
+    public void restore() {
         x = initX;
         y = initY;
     }
 
     // 초기화 좌표 수정
-    public void updateInitXY() {
+    public void updateInitCoordinates() {
         initX = x;
         initY = y;
     }
@@ -45,6 +68,10 @@ class Position {
 
     public int getY() {
         return y;
+    }
+
+    public int getAnswer() {
+        return answer;
     }
 
     private void changeDirection() {
@@ -73,8 +100,16 @@ enum MapInfo {
         this.type = type;
     }
 
-    public static boolean isNotLand(int value) {
-        return MapInfo.LAND.type != value;
+    public static boolean isSea(int value) {
+        return MapInfo.SEA.type == value;
+    }
+
+    public static boolean isLeaving(int x, int y) {
+        return x < 0 || y < 0;
+    }
+
+    public static boolean isVisited(int value) {
+        return MapInfo.VISITED.type == value;
     }
 
     public int getType() {
@@ -132,7 +167,8 @@ enum Strategy {
         this.y = y;
     }
 
-    public static Strategy findByDirection(Direction direction) {
+    // 90도 시계 반대방향으로 회전 후 이동하기 위한 전략
+    public static Strategy findForMove(Direction direction) {
         if(Direction.NORTH.equals(direction)) {
             return Strategy.LEFT;
         } else if(Direction.EAST.equals(direction)) {
@@ -142,7 +178,22 @@ enum Strategy {
         } else if(Direction.WEST.equals(direction)) {
             return Strategy.DOWN;
         } else {
-            throw new IllegalArgumentException("not founded Strategy by Direction : " + direction);
+            throw new IllegalArgumentException("not founded Strategy to Move... Direction : " + direction);
+        }
+    }
+
+    // 뒤로 이동하기 위한 전략
+    public static Strategy findForBack(Direction direction) {
+        if(Direction.NORTH.equals(direction)) {
+            return Strategy.DOWN;
+        } else if(Direction.EAST.equals(direction)) {
+            return Strategy.LEFT;
+        } else if(Direction.SOUTH.equals(direction)) {
+            return Strategy.UP;
+        } else if(Direction.WEST.equals(direction)) {
+            return Strategy.RIGHT;
+        } else {
+            throw new IllegalArgumentException("not founded Strategy to Back... Direction : " + direction);
         }
     }
 
@@ -168,53 +219,44 @@ public class Main {
      * @return
      */
     public int solution(int x, int y, int direction, int n, int m, int[][] map) {
-        int answer = 1; // 현재위치는 방문한 상태
         map[x][y] = MapInfo.VISITED.getType(); // 현재위치는 육지이며 방문했으니까 VISITED 처리
 
-        Position position = new Position(x, y, direction);
+        Position position = new Position(x, y, direction, map.clone());
         while(true) {
             position.move();
-            if(MapInfo.isNotLand(map[position.getX()][position.getY()])) { // 맵이탈이거나 바다이면 방향만 바꾸고 현재 위치 자리 고수
-                position.clearXY();
-            } else { // 방문하지 않은 육지인 경우
-                System.out.println("방문!!! 현재 좌표 // x :" + position.getX() + " y : " + position.getY());
-                map[position.getX()][position.getY()] = MapInfo.VISITED.getType();
-                position.updateInitXY();
-                answer++;
-            }
-            if(validateToEnd(position.getX(), position.getY(), map)) {
-                break;
+            if(validateToBack(position.getX(), position.getY(), map)) { // 이동 후 -> 뒤로 이동해야하는지 판단
+                position.back();
+                int mapInfo = map[position.getX()][position.getY()];
+                if(MapInfo.isLeaving(position.getX(), position.getY()) || MapInfo.isSea(mapInfo)) { // 맵이탈 or 바다이면 종료
+                    break;
+                } else if(MapInfo.isVisited(mapInfo)) { // 방문 했던 곳인 경우
+                    position.updateInitCoordinates();
+                }
             }
         }
 
-        return answer;
+        return position.getAnswer();
     }
 
     /**
-     * 종료 조건은 현재 자신의 위치에서 대각선을 제외한 사방이 1(바다) OR 2(방문) OR 맵 이탈 이면종료
+     * 뒤로 이동해야하는 조건(사방이 맵이탈 or 바다 or 방문했던 곳)
      * @param currentX 캐릭터의 현재 X 좌표
      * @param currentY 캐릭터의 현재 Y 좌표
      * @param map 맵
      * @return 종료 여부
      */
-    private static boolean validateToEnd(int currentX, int currentY, int[][] map) {
+    private static boolean validateToBack(int currentX, int currentY, int[][] map) {
         boolean endFlag = false;
         for(Strategy strategy : Strategy.values()) {
             int x = currentX + strategy.getX();
             int y = currentY + strategy.getY();
-            if(isLeaving(x, y)) { // 맵 이탈
+            if(MapInfo.isLeaving(x, y) || MapInfo.isSea(map[x][y]) || MapInfo.isVisited(map[x][y])) {
                 endFlag = true;
-            } else if(MapInfo.isNotLand(map[x][y])) { // 바다 or 방문
-                endFlag = true;
-            } else {
+            } else { // 방문을 아직 안한 곳인 경우
                 return false;
             }
         }
         return endFlag;
-    }
-
-    private static boolean isLeaving(int x, int y) {
-        return x < 0 || y < 0;
     }
 
     public static void main(String[] args) {
