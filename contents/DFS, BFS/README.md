@@ -4,7 +4,7 @@
 
 ## DFS(Depth-First Search) : 깊이 우선 탐색
 
-DFS 는 깊이 우선 탐색이라고 부르며, 그래프에서 깊은 부분을 우선적으로 탐색하는 알고리즘이다. DFS 는 `스택(Stack)` 자료구조를 사용한다.
+DFS 는 깊이 우선 탐색이라고 부르며, `그래프에서 깊은 부분을 우선적으로 탐색`하는 알고리즘이다. DFS 는 `스택(Stack)` 자료구조를 사용한다.
 
 - __동작 과정__
   - 탐색 시작 노드를 스택에 삽입하고 방문 처리를 한다.
@@ -204,3 +204,117 @@ public class Main {
 
 ## BFS(Breadth-First Search) : 너비 우선 탐색
 
+BFS 는 너비 우선 탐색 이라고 부르며, `가까운 노드 부터 탐색`하는 알고리즘이다. 즉, DFS 의 반대다. BFS 구현은 FIFO 방식인 `Queue` 자료구조를 이용하는 것이 정석이다.
+인접한 노드를 반복적으로 큐에 넣도록 알고리즘을 작성하면 자연스럽게 먼저 들어온 것이 먼저 나가게 되어, 가까운 노드부터 탐색을 진행하게 된다.
+
+- __동작 과정__
+  - 탐색 시작 노드를 큐에 삽입하고 방문 처리를 한다.
+  - 큐에서 노드를 꺼내 해당 노드의 인접 노드 중에서 방문하지 않은 노드를 모두 큐에 삽입하고 방문 처리를 한다.
+  - 2번 과정을 더 이상 수행할 수 없을 때까지 반복한다.
+
+![IMAGES](./images/graph2.JPG)
+
+- 1부터 DFS 시작
+  - 1을 큐에 넣고 방문 처리한다.
+  - 큐에서 노드 1을 꺼내고 방문하지 않은 인접 노드 2,3,8을 모두 큐에 넣고 방문 처리를 한다.
+  - 큐에서 2를 꺼내고 방문하지 않은 인접 노드 7을 큐에 넣고 방문 처리를 한다.
+  - 큐에서 3을 꺼내고 방문하지 않은 인접 노드 4,5를 모두 큐에 넣고 방문 처리를 한다.
+  - 큐에서 8을 꺼내고 방문하지 않은 인접 노드가 없으므로 무시한다.
+  - 큐에서 7을 꺼내고 방문하지 않은 인접 노드 6을 큐에 넣고 방문 처리를 한다.
+  - 남아 있는 노드에 방문하지 않은 인접 노드가 없다. 따라서 남은 노드를 차례대로 꺼낸다.
+  - 탐색 순서 결과(큐 들어간 순서) : `1 -> 2 -> 3 -> 8 -> 7 -> 4 -> 5 -> 6`
+    - 시간 복잡도 `O(N)`
+    - 일반적인 경우 실제 수행시간은 DFS 보다 좋다.
+
+```java
+public class Main {
+
+    public static boolean[] visited = new boolean[9];
+    public static ArrayList<ArrayList<Integer>> graph = new ArrayList<ArrayList<Integer>>();
+
+    // BFS 함수 정의
+    public static void bfs(int start) {
+        Queue<Integer> q = new LinkedList<>();
+        q.offer(start);
+        // 현재 노드를 방문 처리
+        visited[start] = true;
+        // 큐가 빌 때까지 반복
+        while(!q.isEmpty()) {
+            // 큐에서 하나의 원소를 뽑아 출력
+            int x = q.poll();
+            System.out.print(x + " ");
+            // 해당 원소와 연결된, 아직 방문하지 않은 원소들을 큐에 삽입
+            for(int i = 0; i < graph.get(x).size(); i++) {
+                int y = graph.get(x).get(i);
+                if(!visited[y]) {
+                    q.offer(y);
+                    visited[y] = true;
+                }
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        // 그래프 초기화
+        for (int i = 0; i < 9; i++) {
+            graph.add(new ArrayList<Integer>());
+        }
+
+        // 노드 1에 연결된 노드 정보 저장 
+        graph.get(1).add(2);
+        graph.get(1).add(3);
+        graph.get(1).add(8);
+        
+        // 노드 2에 연결된 노드 정보 저장 
+        graph.get(2).add(1);
+        graph.get(2).add(7);
+        
+        // 노드 3에 연결된 노드 정보 저장 
+        graph.get(3).add(1);
+        graph.get(3).add(4);
+        graph.get(3).add(5);
+        
+        // 노드 4에 연결된 노드 정보 저장 
+        graph.get(4).add(3);
+        graph.get(4).add(5);
+        
+        // 노드 5에 연결된 노드 정보 저장 
+        graph.get(5).add(3);
+        graph.get(5).add(4);
+        
+        // 노드 6에 연결된 노드 정보 저장 
+        graph.get(6).add(7);
+        
+        // 노드 7에 연결된 노드 정보 저장 
+        graph.get(7).add(2);
+        graph.get(7).add(6);
+        graph.get(7).add(8);
+        
+        // 노드 8에 연결된 노드 정보 저장 
+        graph.get(8).add(1);
+        graph.get(8).add(7);
+
+        bfs(1);
+    }
+}
+```
+
+## 정리
+
+- __DFS__
+  - 동작 원리 : 스택
+  - 구현 방법 : 재귀 함수
+  - 시간 복잡도 O(N)
+- __BFS__
+  - 동작 원리 : 큐
+  - 구현 방법 : 큐 
+  - 시간 복잡도 O(N)
+
+1차원 배열이나 2차원 배열 또한 그래프로 생각하면 수월하게 문제를 풀 수 있다. 아래처럼 좌표를 그래프 형태로 바꿔서 생각할 수 있다. 코딩테스트에서 2차원 배열의 탐색 문제를 만나면
+그래프 형태로 바꿔서 생각하면 풀이 방법을 조금 더 쉽게 떠올릴 수 있다.
+
+```
+(1,1) (1,2) (1,3)
+(2,1) (2,2) (2,3)
+(3,1) (3,2) (3,3)
+```
