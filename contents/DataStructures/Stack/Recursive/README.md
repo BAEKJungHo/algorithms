@@ -93,16 +93,16 @@ public class Main {
 ```java
 public class Recursive {
 
-     public int solution(int n) {
+     public int factorial(int n) {
         System.out.println(Thread.currentThread().getName()); // 현재 실행중인 스레드 이름
-        return n <= 1 ? 1 : n * solution(n-1);
+        return n <= 1 ? 1 : n * factorial(n-1);
     }
 
     public static void main(String[] args) {
         Recursive T = new Recursive();
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-        System.out.println(T.solution(n));
+        System.out.println(T.factorial(n));
     }
 }
 ```
@@ -115,7 +115,7 @@ public class Recursive {
     - Heap 영역에 생성된 `Object 타입 | 데이터` 의 참조 변수(Reference Variable)가 할당된다.
         - Ex. String ref = "abc";
         - 실제로 Heap 영역에는 String | "abc" 이런식으로 들어가고, ref 의 참조 변수가 stack 에 할당된다. 
-    - 원시타입의 데이터가 값과 함께 할당된다.
+    - 원시 타입의 데이터가 값과 함께 할당된다.
     - 지역변수들은 `scope` 에 따른 `visibility` 를 가진다.
     - 가장 마지막에 호출한 함수가 종료 되어야 이 전에 호출한 함수들도 종료가 된다.
 - __JVM 메모리 힙 영역__
@@ -126,6 +126,11 @@ public class Recursive {
     - Heap 영역에 있는 오브젝트들을 가리키는 레퍼런스 변수가 stack 에 올라가게 된다.
 - __스택 자료 구조__
     - LIFO(Last In First Out)
+- __Call Frame__
+    - 재귀 함수는 함수가 호출될 때마다 Call Frame(호출 프레임)의 정보들이 스택 메모리에 저장된다.
+        - 호출 함수의 `return address`
+            - 스택에서 "가장 마지막에 호출한 함수가 종료 되어야 이 전에 호출한 함수들도 종료가 된다." 라고 했다. 호출 함수의 return address 가 있기에 돌아올 위치를 알 수 있는 것이다.
+        - 피호출 함수의 `매개변수` 와 `지역변수`
 
 > [자바 스택과 힙 메모리 관리](https://yaboong.github.io/java/2018/05/26/java-memory-management/)
 
@@ -144,10 +149,20 @@ main
 
 자, 재귀가 현재 main 스레드 위에서 동작하는 것을 볼 수 있다. (즉, 스레드가 현재 1개이다.) 그러면 위에서 배운 개념을 적용하면 생성된 스택 영역도 1개인 것이다.
 
-그림으로 스택과 재귀의 동작 과정을 살펴보자.
+그림으로 스택과 재귀의 동작 과정을 살펴보자. 
 
-1. 스택에 들어갈 매개변수는 n 하나이다. (현재 n = 5)
+> 그림에서 색깔이 다른 이유는 다른 scope 를 의미한다. 따라서 스택에 n 이 값이 여러개 있더라도 scope 가 다르면 사용할 수 없다.
 
+1. 메인 스레드에 의해 factorial 함수가 호출되었으므로 return address (Ex. a)를 저장하고, 매개변수 n 과 원시 값을 저장한다. (n = 5)
+    - 스택 메모리의 특징에서 원시 값은 스택에 저장된다고 배웠다,
+    - 여기서 주소 값 a 는 `T.factorial(n)` 이 코드에 대한 주소 값이다.
+2. 다음으로 n 이 1이하가 아니므로 재귀 함수가 호출된다.
+    - 여기서 중요한 점은, return 문이 있지만 아직, return(종료)하지 않는다는 것이다. 
+3. 점화식이 호출되면서 새로운 return address (Ex. b) 값과 매개변수 n 과 원시 값을 저장한다. (n = 4)
+    - 여기서 주소 값 b 는 재귀 함수 호출에 대한 주소 값이다.
+4. 종료 조건인 `n <= 1` 이 될때 까지 반복하여 스택에 저장한다.
+5. 종료 조건을 만나, 스택의 top 부분이 pop 되면서 return n 의 값과, return address 를 참고하여 다음 함수 호출 주소로 이동하여 계산할 준비를 한다.
+6. 메인 함수가 종료되면서 stack 에 있는 모든 메모리들이 사라진다.
 
 
 
