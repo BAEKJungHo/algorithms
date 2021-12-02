@@ -197,6 +197,13 @@ public int factorial(int n) {
 
 일반적인 재귀의 경우 factorial(3)을 호출 했다고 하면 마지막에 호출된 재귀 함수 값이 1이면 그 값을 다음 스택에 넘겨서 `2 * 1`을 계산하게 하고, 그 결과를 또 다음 스택에 넘겨서 `3 * 2` 를 계산하게하여 결과를 도출한다. 일반 재귀의 마지막 부분은 아래처럼 생겼었다. `factorial(n-1)` 이 바로 호출당한 함수인데, 이 함수는 스택에 쌓였다가 빠져 나올 때 원래 자기 자리로 돌아가서 앞쪽의 n 과 곱해져야 한다. 즉, return address 가 필수이다.
 
+위 코드에 대한 컴파일러의 해석은 동일하게 재귀 방식이다.
+
+```java
+public int factorial(int n) {
+    return n <= 1 ? 1 : n * this.factorial(n - 1);
+}
+```
 
 다음은 꼬리 재귀 방식이다.
 
@@ -227,19 +234,135 @@ int factorialTail(int n) {
 }
 ```
 
-내부적으로 재귀 함수를 반복문으로 변경되어 실행이 된다.
+재귀호출은 사라지고, do-while문을 이용하는 코드로 최적화되어 있는 것을 확인할 수 있다. 즉, 내부적으로 `재귀 함수를 반복문으로 변경되어 실행`이 된다. 따라서, Stack Overflow 에 대한 위험이 없다고 하는 것이다.
 
 ## Java 와 꼬리 재귀 최적화
 
-C++, C#, Kotlin, Swift은 꼬리 재귀 최적화를 지원하며, JavaScript는 ES6 스펙에서 지원한다고 한다.
-Scala는 JVM 위에서 동작하는데, 꼬리 재귀 최적화를 지원한다고 한다.
-하지만 Java는 꼬리 재귀 최적화를 직접적으로 지원하지 않는다.
+C++, C#, Kotlin, Swift 는 꼬리 재귀 최적화를 지원하며, JavaScript 는 ES6 스펙에서 지원한다고 한다.
+Scala 는 JVM 위에서 동작하는데, 꼬리 재귀 최적화를 지원한다고 한다.
+하지만 Java 는 꼬리 재귀 최적화를 직접적으로 지원하지 않는다.
 
+자바에서 진짜 최적화를 지원하지 않는지 테스트를 해보았다. 컴파일러의 해석 결과는 다음과 같았다.
+
+```java
+public static int factorialTail(int n, int total) {
+    return n == 1 ? total : factorialTail(n - 1, n * total);
+}
+```
 
 - [지원하지 않는 이유](http://wiki.sys4u.co.kr/display/SOWIKI/Tail+call+Optimization)
     - jdk 클래스에는 보안에 민감한 메소드가 있다고 한다. 이 메소드들은 메소드 호출을 누가 했는지 알아내기 위해 jdk 라이브러리 코드와 호출 코드간의 스택 프레임 갯수에 의존한다. 스택 프레임 수의 변경을 유발하게 되면 이 의존관계를 망가뜨려 에러가 발생할 수 있다.
 - [Java에서 꼬리 재귀 사용하기?](https://blog.knoldus.com/tail-recursion-in-java-8/)
     - Java는 컴파일러 레벨에서는 직접적으로 꼬리 재귀 최적화를 지원하지는 않지만, Java 8의 람다식과 함수형 인터페이스(functional interface)로 꼬리 재귀와 같은 컨셉을 적용해볼 수 있다고 한다.
+
+### Java 8의 람다식과 함수형 인터페이스(functional interface)로 구현
+
+```java
+package jungho.chapter5.factorial;
+
+import java.util.Scanner;
+import java.util.stream.Stream;
+
+/**
+ * TailCalls Convenience Class
+ */
+class TailCalls {
+
+    public static TailCall call(final TailCall nextCall) {
+        return nextCall;
+    }
+
+    public static TailCall done(final int value) {
+        return new TailCall() {
+            @Override
+            public boolean isComplete() { // true 를 반환하여 재귀의 끝을 보고한다.
+                return true;
+            }
+
+            @Override
+            public int result() {
+                return value;
+            }
+
+            @Override
+            public TailCall apply() {
+                throw new Error("not implemented");
+            }
+        };
+    }
+}
+
+/**
+ * default 메서드를 이용하여 구현
+ */
+@FunctionalInterface
+interface TailCall {
+
+    // 실행 대기 중인 다음 TailCall 인스턴스를 반환
+    TailCall apply();
+
+    // 단순히 false 를 반환 : false 라는 것은 아직 대기중이라는 의미가 된다.
+    default boolean isComplete() {
+        return false;
+    }
+
+    default int result() {
+        throw new Error("not implemented");
+    }
+
+    default int invoke() {
+        return Stream.iterate(this, TailCall::apply)
+                .filter(TailCall::isComplete)
+                .findFirst()
+                .get()
+                .result();
+    }
+}
+
+public class TailRecursiveWithLambda {
+
+    /**
+     * factorialTail() 메서드를 호출하면 TailCall 인스턴스와 함께 즉시 반환된다.
+     * 핵심 아이디어는 done() 메서드를 호출 하면 재귀가 종료 된다는 신호를 보낸다는 것이다.
+     * 반면에 call() 메서드를 사용하는 경우 재귀를 계속하도록 요청하지만 현재 스택 수준에서 한 단계 내려간 후에만 가능하다.
+     * @param n 입력값
+     * @param total 총 계산한 값
+     * @return TailCall
+     */
+    public static TailCall factorialTail(final int n, final int total) {
+        if (n == 1) {
+            return TailCalls.done(total);
+        } else {
+            return TailCalls.call(() -> factorialTail(n - 1, n * total));
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        System.out.println(factorialTail(10, 1).invoke());
+    }
+
+}
+```
+
+컴파일러가 해석한 결과는 다음과 같다.
+
+```java
+public static TailCall factorialTail(int n, int total) {
+    return n == 1 ? TailCalls.done(total) : TailCalls.call(() -> {
+        return factorialTail(n - 1, n * total);
+    });
+}
+```    
+
+직접 디버깅을 하면서 `Call Frames` 를 확인해보면 알겠지만, 일반적인 재귀랑 다르게 하나의 스코프 안에서 n 과 total 의 값이 계산된다는 느낌을 받을 수 있다.
+
+### Conclusions
+
+- Tail Call 은 리턴 직전의 연산이 (재귀)함수 호출인 경우를 의미한다.
+- Kotlin 의 Tail Call Optimization 은 컴파일러 레벨에서 지원되며, 그 결과 Stack Overflow 의 위험 없는 최적화된 코드가 만들어진다.
+- Java 언어는 '아직' Tail Call Optimization 을 지원하지 않고 있으며, '언젠가는 지원하지 않을까?' 라는게 자바 아키텍트의 의견이다.
 
 ## References 
 
