@@ -126,7 +126,7 @@ public class Recursive {
     - Heap 영역에 있는 오브젝트들을 가리키는 레퍼런스 변수가 stack 에 올라가게 된다.
 - __스택 자료 구조__
     - LIFO(Last In First Out)
-- __Call Frame__
+- __Call Frame(Call Stack)__
     - 재귀 함수는 함수가 호출될 때마다 Call Frame(호출 프레임)의 정보들이 스택 메모리에 저장된다.
         - 호출 함수의 `return address`
             - 스택에서 "가장 마지막에 호출한 함수가 종료 되어야 이 전에 호출한 함수들도 종료가 된다." 라고 했다. 호출 함수의 return address 가 있기에 돌아올 위치를 알 수 있는 것이다.
@@ -166,5 +166,84 @@ main
 6. 메인 함수가 종료되면서 stack 에 있는 모든 메모리들이 사라진다.
 
 
+### 재귀 함수의 문제 : Stack Overflow 
+
+재귀 함수는 호출 시 마다 함수의 지역변수, 매개변수, 리턴 후 돌아갈 위치, 리턴 값 등을 스택에 저장한다. 따라서 무리하게 호출을 하다보면 스택 공간이 다 차버리는 `스택 오버플로우(Stack Overflow )`현상이 발생할 수 있다.
+
+# 꼬리 재귀(Tail Recursion)
+
+꼬리 재귀는 재귀 함수의 장점은 살리고, 단점을 보완하는 방법 중 하나이다.
+
+- __꼬리 재귀 최적화를 위한 조건__
+    - 재귀 함수를 꼬리 재귀 방식으로 구현할 것
+    - 컴파일러가 꼬리 재귀 최적화를 지원할 것
+
+컴파일러가 꼬리 재귀 최적화를 지원하지 않는다면, 꼬리 재귀 방식으로 구현을 해도 일반 재귀 처럼 동작할 것이다.
+
+꼬리 재귀는 `재귀 호출이 끝나면 아무 일도 하지 않고 결과만 바로 반환되도록 하는 방법`이다. 이 방식을 사용하면 이전 함수의 상태를 유지하지도 않고 추가 연산을 하지도 않아서 스택이 넘쳐나는 문제를 해결할 수 있게 된다.
+
+꼬리 재귀 함수는 이름처럼 항상 함수의 꼬리부분(마지막)에서 실행되는데, return 되기 전에 값이 정해지며 `호출당한 함수의 결과값이 → 호출하는 함수의 결과값` 으로 반환된다.
+
+- __꼬리 재귀__
+    - 호출 당한 함수의 결과 > 호출한 함수의 결과
+
+일반 재귀 방식의 코드를 다시 보자.
+
+```java
+public int factorial(int n) {
+    return n <= 1 ? 1 : n * factorial(n-1);
+}
+```
+
+일반적인 재귀의 경우 factorial(3)을 호출 했다고 하면 마지막에 호출된 재귀 함수 값이 1이면 그 값을 다음 스택에 넘겨서 `2 * 1`을 계산하게 하고, 그 결과를 또 다음 스택에 넘겨서 `3 * 2` 를 계산하게하여 결과를 도출한다. 일반 재귀의 마지막 부분은 아래처럼 생겼었다. `factorial(n-1)` 이 바로 호출당한 함수인데, 이 함수는 스택에 쌓였다가 빠져 나올 때 원래 자기 자리로 돌아가서 앞쪽의 n 과 곱해져야 한다. 즉, return address 가 필수이다.
 
 
+다음은 꼬리 재귀 방식이다.
+
+```java
+public int factorialTail(int n, int total) {
+    return n == 1 ? total : factorialTail(n - 1,  n * total);
+}
+
+public int factorial(int n) {
+    return factorialTail(n, 1);
+}
+```
+
+__꼬리 재귀의 핵심은 재귀 호출 이후 추가적인 연산을 요구하지 않도록 구현 하는 것이다.__ 
+
+꼬리 재귀의 마지막 부분을 보면 `factorialTail(n - 1,  n * total)` 따로 연산 같은 작업을 추가로 하지 않고 반환만 한다. 따라서 굳이 자기 자리를 기억하지 않아도 된다. 즉, 스택에 return address 를 저장할 필요가 없어진다.
+
+위 코드에 대한 컴파일러의 해석은 다음과 같다.
+
+```java
+int FactorialTail(int n){
+	int acc = 1;
+    
+    do{
+    	if(n == 1) return;
+        total = total * n;
+        n = n - 1;
+    } while(true);
+}
+```
+
+내부적으로 재귀 함수를 반복문으로 변경되어 실행이 된다.
+
+## Java 와 꼬리 재귀 최적화
+
+C++, C#, Kotlin, Swift은 꼬리 재귀 최적화를 지원하며, JavaScript는 ES6 스펙에서 지원한다고 한다.
+Scala는 JVM 위에서 동작하는데, 꼬리 재귀 최적화를 지원한다고 한다.
+하지만 Java는 꼬리 재귀 최적화를 직접적으로 지원하지 않는다.
+
+
+- [지원하지 않는 이유](http://wiki.sys4u.co.kr/display/SOWIKI/Tail+call+Optimization)
+    - jdk 클래스에는 보안에 민감한 메소드가 있다고 한다. 이 메소드들은 메소드 호출을 누가 했는지 알아내기 위해 jdk 라이브러리 코드와 호출 코드간의 스택 프레임 갯수에 의존한다. 스택 프레임 수의 변경을 유발하게 되면 이 의존관계를 망가뜨려 에러가 발생할 수 있다.
+- [Java에서 꼬리 재귀 사용하기?](https://blog.knoldus.com/tail-recursion-in-java-8/)
+    - Java는 컴파일러 레벨에서는 직접적으로 꼬리 재귀 최적화를 지원하지는 않지만, Java 8의 람다식과 함수형 인터페이스(functional interface)로 꼬리 재귀와 같은 컨셉을 적용해볼 수 있다고 한다.
+
+## References 
+
+> https://velog.io/@dldhk97/%EC%9E%AC%EA%B7%80%ED%95%A8%EC%88%98%EC%99%80-%EA%BC%AC%EB%A6%AC-%EC%9E%AC%EA%B7%80
+> 
+> https://joooing.tistory.com/entry/%EC%9E%AC%EA%B7%80-%E2%86%92-%EA%BC%AC%EB%A6%AC-%EC%9E%AC%EA%B7%80-Tail-Recursion
