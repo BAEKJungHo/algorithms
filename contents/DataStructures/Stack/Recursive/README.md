@@ -364,6 +364,18 @@ public static TailCall factorialTail(int n, int total) {
 
 [![미리보기](http://img.youtube.com/vi/ToMYT5QOjIw/0.jpg)](https://www.youtube.com/watch?v=ToMYT5QOjIw)
 
+### Recursive Factorial
+
+[![미리보기](http://img.youtube.com/vi/3xd1MDJydUY/0.jpg)](https://www.youtube.com/watch?v=3xd1MDJydUY)
+
+### Tail Recursive Not supports optimization in Java
+
+[![미리보기](http://img.youtube.com/vi/BUHsJ-92ZG8/0.jpg)](https://www.youtube.com/watch?v=BUHsJ-92ZG8)
+
+### Tail Recursive With Lambda and Functional Interface
+
+[![미리보기](http://img.youtube.com/vi/VhzT9FFnBeQ/0.jpg)](https://www.youtube.com/watch?v=VhzT9FFnBeQ)
+
 ## Conclusions
 
 - Tail Call 은 리턴 직전의 연산이 (재귀)함수 호출인 경우를 의미한다.
