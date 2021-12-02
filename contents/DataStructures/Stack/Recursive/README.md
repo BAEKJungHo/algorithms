@@ -360,7 +360,9 @@ public static TailCall factorialTail(int n, int total) {
 
 ## Debugging
 
-<img width="80%" src="../../videos/Iterative Factorial.mp4"/>
+<img width="80%" src="https://github.com/BAEKJungHo/algorithms/blob/master/contents/DataStructures/videos/Iterative%20Factorial.mp4"/>
+
+<iframe width="560" height="315" src="https://github.com/BAEKJungHo/algorithms/blob/master/contents/DataStructures/videos/Iterative%20Factorial.mp4" frameborder="0" allowfullscreen></iframe>
 
 ## Conclusions
 
