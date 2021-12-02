@@ -356,9 +356,11 @@ public static TailCall factorialTail(int n, int total) {
 }
 ```    
 
-직접 디버깅을 하면서 `Call Frames` 를 확인해보면 알겠지만, 일반적인 재귀랑 다르게 하나의 스코프 안에서 n 과 total 의 값이 계산된다는 느낌을 받을 수 있다.
+직접 디버깅을 하면서 `Call Frames` 를 확인해보면 알겠지만, 일반적인 재귀랑 다르게 `하나의 스코프 안`에서 n 과 total 의 값이 계산된다는 느낌을 받을 수 있다.
 
 ## Debugging
+
+> [Sources](https://github.com/BAEKJungHo/algorithms/tree/master/src/src/main/java/thisiscodingtest/chapter5/factorial)
 
 ### Iterative Factorial
 
