@@ -217,10 +217,9 @@ __꼬리 재귀의 핵심은 재귀 호출 이후 추가적인 연산을 요구�
 위 코드에 대한 컴파일러의 해석은 다음과 같다.
 
 ```java
-int FactorialTail(int n){
-	int acc = 1;
-    
-    do{
+int factorialTail(int n) {
+    int total = 1;
+    do {
     	if(n == 1) return;
         total = total * n;
         n = n - 1;
