@@ -362,7 +362,7 @@ public static TailCall factorialTail(int n, int total) {
 
 ### Iterative Factorial
 
-<iframe width="560" height="315" src="https://www.youtube.com/watch?v=ToMYT5QOjIw frameborder="0" allowfullscreen></iframe>
+[![미리보기](http://img.youtube.com/vi/ToMYT5QOjIw/0.jpg)](https://www.youtube.com/watch?v=ToMYT5QOjIw)
 
 ## Conclusions
 
