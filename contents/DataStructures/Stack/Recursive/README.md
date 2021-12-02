@@ -255,7 +255,7 @@ public static int factorialTail(int n, int total) {
 - [Java에서 꼬리 재귀 사용하기?](https://blog.knoldus.com/tail-recursion-in-java-8/)
     - Java는 컴파일러 레벨에서는 직접적으로 꼬리 재귀 최적화를 지원하지는 않지만, Java 8의 람다식과 함수형 인터페이스(functional interface)로 꼬리 재귀와 같은 컨셉을 적용해볼 수 있다고 한다.
 
-### Java 8의 람다식과 함수형 인터페이스(functional interface)로 구현
+## Java 8의 람다식과 함수형 인터페이스(functional interface)로 구현
 
 ```java
 package jungho.chapter5.factorial;
@@ -358,7 +358,11 @@ public static TailCall factorialTail(int n, int total) {
 
 직접 디버깅을 하면서 `Call Frames` 를 확인해보면 알겠지만, 일반적인 재귀랑 다르게 하나의 스코프 안에서 n 과 total 의 값이 계산된다는 느낌을 받을 수 있다.
 
-### Conclusions
+## Debugging
+
+<iframe width="640" height="360" src="../../videos/Iterative Factorial.mp4" frameborder="0" gesture="media" allowfullscreen=""></iframe>
+
+## Conclusions
 
 - Tail Call 은 리턴 직전의 연산이 (재귀)함수 호출인 경우를 의미한다.
 - Kotlin 의 Tail Call Optimization 은 컴파일러 레벨에서 지원되며, 그 결과 Stack Overflow 의 위험 없는 최적화된 코드가 만들어진다.
