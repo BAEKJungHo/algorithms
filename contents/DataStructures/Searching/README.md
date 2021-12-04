@@ -187,9 +187,9 @@ public int solution(int n, int m, int[] arr) {
 }
 ```
 
-# 결정 알고리즘(Decision Algorithm)과 파라메트릭 서치(Parametric Search)
+# 결정 알고리즘과 파라메트릭 서치
 
-파라메트릭 서치(Parametric Search)는 Parametirc 이라는 단어를 보면 알 수 있듯이 `매개 변수를 이용한 탐색 기법`이라는 것을 알 수 있다. 파라메트릭 서치(Parametric Search) 는 `최적화 문제` 를 `결정 문제` 로 바꾸어 해결하는 기법이다. 즉, 결정 알고리즘을 사용한다. 결정 알고리즘은 `이분 검색(Binary Search)`을 사용하는데 구하고자하는 답이, 원소의 나열 안에(`<-startPoint---------------endPoint->`) 존재하는 경우에 사용한다. 문제의 풀이 아이디어는 `구하고자하는 답(answer)을 반복해서 조정`한다.
+파라메트릭 서치(Parametric Search)는 Parametirc 이라는 단어를 보면 알 수 있듯이 `매개 변수를 이용한 탐색 기법`이라는 것을 알 수 있다. 파라메트릭 서치(Parametric Search) 는 `최적화 문제` 를 `결정 문제` 로 바꾸어 해결하는 기법이다. 즉, 결정 알고리즘(Decision Algorithm)을 사용한다. 결정 알고리즘은 `이분 검색(Binary Search)`을 사용하는데 구하고자하는 답이, 원소의 나열 안에(`<-startPoint---------------endPoint->`) 존재하는 경우에 사용한다. 문제의 풀이 아이디어는 `구하고자하는 답(answer)을 반복해서 조정`한다.
 
 자, 이해하기 쉽게 정리하자면 __"파라메트릭 서치(Parametric Search)는 `매개변수를 이용한 탐색 기법`이며 최적화된 답을 구하기 위해 `결정 알고리즘`을 사용한다."__ 라고 할 수 있다.
 
