@@ -32,7 +32,7 @@ public static int sequantialSearch(int n, String target, String[] arr) {
 
 - __특징__
   - 탐색 범위를 반으로 좁혀가면서 탐색 
-  - 탐색을 실시하기전에 `오름차순 정렬`이 되어있어야 한다.
+  - 이진 탐색을 하기 위한 전제 조건(precondition) : 탐색을 실시하기전에 `오름차순 정렬`이 되어있어야 한다.
   - 입력 데이터 개수의 범위가 1,000 만을 넘어가면 이진 탐색 혹은 `O(logN)` 의 속도를 내야 하는 알고리즘을 떠올려야 한다.
   - 위치를 나타내는 변수 3개 사용 : `시작점(startPoint = 0), 끝점(endPoint = n-1), 중간점(middlePoint)`
     - 각 Point 들은 값이 아닌 배열의 `Index` 를 나타낸다.
