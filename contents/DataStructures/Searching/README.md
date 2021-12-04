@@ -38,7 +38,7 @@ public static int sequantialSearch(int n, String target, String[] arr) {
   - 위치를 나타내는 변수 3개 사용 : 시작점(startPoint = 0), 끝점(endPoint = n-1), 중간점(middlePoint)
     - 각 Point 들은 값이 아닌 배열의 `Index` 를 나타낸다.
       1. 중간점 계산식 : `middlePoint = (startPoint + endPoint) / 2;`
-        - 중간점(middlePoint) 가 실수일 경우에는 소수점을 버린다. (Ex. (0 + 3) / 2  -> middlePoint = 1)
+         - 중간점(middlePoint)이 실수일 경우에는 소수점을 버린다. (Ex. (0 + 3) / 2  -> middlePoint = 1)
       2. 중간점과 찾고자 하는 값(target)을 비교한다.
       3. 찾고자 하는 데이터가 더 작은 쪽에 속하면 끝점 index 를 감소 : `endPoint = middlePoint - 1;`
       4. 찾고자 하는 데이터가 더 큰 쪽에 속하면 시작점 index 를 증가 : `startPoint = middlePoint + 1;`
@@ -64,23 +64,23 @@ public static int solution() {
   
   // endPoint 의 index 가 더 크거나 같을 때 까지 반복
   while(startPoint <= endPoint) {
-    // 중간점 계산
-    int middlePoint = (startPoint + endPoint) / 2;
-    
-    // 중간점이 target 값과 동일한 경우    
-    if(arr[middlePoint] == target) { 
-       targetIndex = middlePoint; // 문제에 따라서 위치 번호를 출력하라고 하면 middlePoint + 1 이 될 수도 있음.
-       break;
-    }
-    
-    // 찾고자 하는 데이터가 더 작은 쪽에 속하면 끝점 index 를 감소
-    if(arr[middlePoint] < target) {  
-       endPoint = middlePoint - 1;
-    } 
-    // 찾고자 하는 데이터가 더 큰 쪽에 속하면 시작점 index 를 증가
-    else {
-       startPoint = middlePoint + 1;
-    }
+        // 중간점 계산
+        int middlePoint = (startPoint + endPoint) / 2;
+
+        // 중간점이 target 값과 동일한 경우    
+        if(arr[middlePoint] == target) { 
+           targetIndex = middlePoint; // 문제에 따라서 위치 번호를 출력하라고 하면 middlePoint + 1 이 될 수도 있음.
+           break;
+        }
+
+        // 찾고자 하는 데이터가 더 작은 쪽에 속하면 끝점 index 를 감소
+        if(arr[middlePoint] < target) {  
+           endPoint = middlePoint - 1;
+        } 
+        // 찾고자 하는 데이터가 더 큰 쪽에 속하면 시작점 index 를 증가
+        else {
+           startPoint = middlePoint + 1;
+        }
   }
   
   return targetIndex;
