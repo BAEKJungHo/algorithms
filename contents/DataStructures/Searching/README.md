@@ -84,7 +84,7 @@ public static int solution() {
         }
 
         // 찾고자 하는 데이터가 더 작은 쪽에 속하면 끝점 index 를 감소
-        if(arr[middlePoint] < target) {  
+        if(arr[middlePoint] > target) {  
            endPoint = middlePoint - 1;
         } 
         // 찾고자 하는 데이터가 더 큰 쪽에 속하면 시작점 index 를 증가
