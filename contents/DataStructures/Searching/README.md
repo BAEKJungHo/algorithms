@@ -136,7 +136,9 @@ public static int binarySearch(int[] arr, int target, int start, int end) {
     - 부모 노드보다 오른쪽 자식 노드가 크다.
     - 이진 탐색 트리 자료구조를 구현하라고하는 문제는 출제 빈도가 낮다.
 
+![IMAGES](../images/binarysearchtree.JPG)
 
+찾고자 하는 값이 `37`이면 30 기준으로 이진 탐색을 실시하면 된다. 일단 루트 노드보다 찾고자하는 값이 크므로 왼쪽을 날리고, 오른쪽 그래프에서 다시 이진 탐색을 실시한다.
 
 # 기본 문제
 
