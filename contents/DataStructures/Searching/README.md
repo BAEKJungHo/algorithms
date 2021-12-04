@@ -53,7 +53,7 @@ public static int sequantialSearch(int n, String target, String[] arr) {
 
 ## 구현
 
-### while 문으로 구현하기
+### 반복문으로 구현하기
 
 ```java
 private static int n; // 입력 데이터 개수
@@ -142,7 +142,7 @@ public static int binarySearch(int[] arr, int target, int start, int end) {
 
 # 결정 알고리즘과 파라메트릭 서치
 
-파라메트릭 서치(Parametric Search)는 Parametirc 이라는 단어를 보면 알 수 있듯이 `매개 변수를 이용한 탐색 기법`이라는 것을 알 수 있다. 파라메트릭 서치(Parametric Search) 는 `최적화 문제` 를 `결정 문제` 로 바꾸어 해결하는 기법이다. 즉, 결정 알고리즘(Decision Algorithm)을 사용한다. 결정 알고리즘은 `이분 검색(Binary Search)`을 사용하는데 구하고자하는 답이, 원소의 나열 안에(`<-startPoint---------------endPoint->`) 존재하는 경우에 사용한다. 문제의 풀이 아이디어는 `구하고자하는 답(answer)을 반복해서 조정`한다.
+파라메트릭 서치(Parametric Search)는 Parametirc 이라는 단어를 보면 알 수 있듯이 `매개 변수를 이용한 탐색 기법`이라는 것을 알 수 있다. 파라메트릭 서치(Parametric Search) 는 `최적화 문제` 를 `결정 문제` 로 바꾸어 해결하는 기법이다. 즉, 결정 알고리즘(Decision Algorithm)을 사용한다. 결정 알고리즘은 `이분 검색(Binary Search)`을 사용하는데 구하고자하는 답이, 원소의 나열 안(배열)에(`<-startPoint---------------endPoint->`) 존재하는 경우에 사용한다. 문제의 풀이 아이디어는 `구하고자하는 답(answer)을 반복해서 조정`한다.
 
 자, 이해하기 쉽게 정리하자면 __"파라메트릭 서치(Parametric Search)는 `매개변수를 이용한 탐색 기법`이며 최적화된 답을 구하기 위해 `결정 알고리즘`을 사용한다."__ 라고 할 수 있다.
 
@@ -202,10 +202,66 @@ if(decisionToFindTheOptimizedValue(arr, middlePoint) <= m) {
 }
 ```
 
-- __최종 구현 Sample__
+- __최종 구현 Sample : 최댓값을 구하는 경우__
+    - 문제 : 이것이코딩테스트다 떡볶이 떡 만들기
 
 ```java
+public class Main {
 
+    private static int n; // 입력 데이터 개수 
+    private static int m; // 조건(condition) : 손님이 얻고자 하는 떡의 길이
+    private static int[] arr; // 배열
+
+    public static void main(String[] args) {
+        initializeInputData();
+        System.out.println(decisionAlgorithm());
+    }
+
+    private static void initializeInputData() {
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        m = sc.nextInt();
+        arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+    }
+
+    // 결정 알고리즘(Decision Algorithm)
+    private static int decisionAlgorithm() {
+        ascendingSort(riceCakes); // precondition
+
+        int answer = 0; // 구하고자하는 답
+        int startPoint = 1; // 입력 값 n 의 시작 범위 (1 <= n <= 1000000 이므로 1)
+        int endPoint = arr[n - 1]; // 배열의 마지막 원소 값
+
+        while(startPoint <= endPoint) {
+            int middlePoint = (startPoint + endPoint) / 2;
+            if(decisionToFindTheOptimizedValue(middlePoint) >= m) {
+                answer = middlePoint; // 구하고자하는 답(answer)을 반복해서 조정
+                startPoint = middlePoint + 1;
+            } else {
+                endPoint = middlePoint - 1;
+            }
+        }
+
+        return answer;
+    }
+
+    private static void ascendingSort(int[] arr) {
+        Arrays.sort(arr);
+    }
+
+    private static int decisionToFindTheOptimizedValue(int middlePoint) {
+        int sum = 0;
+        for(int element : arr) {
+            if(element > middlePoint) {
+                sum += riceCake - middlePoint;
+            }
+        }
+        return sum;
+    }
+}
 ```
 
 ## [뮤직비디오(결정알고리즘)](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/searching/musicvideo/Main.java)
