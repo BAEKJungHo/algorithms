@@ -156,7 +156,7 @@ public static int binarySearch(int[] arr, int target, int start, int end) {
         - 결정 알고리즘은 원소의 나열 안에 구하고자 하는 답이 존재하는 경우 사용
     - 문제 풀이 아이디어 : 구하고자하는 답(answer)을 반복해서 조정
         - 즉, 구하고자 하는 답(answer)는 반복문 안에서 계속해서 변경된다.
-        - 구하고자하는 답(answer)은 반복문안에서 계속해서 변경되는 중간점(middlePoint)를 의미한다.
+        - 구하고자하는 답(answer)은 반복문안에서 계속해서 변경되는 중간점(middlePoint)을 의미한다.
         - 즉, 결정 알고리즘에서는 최종적으로 middlePoint 가 answer 가 된다.
     - 단순 이진 탐색 구현과의 차이점
         - 함수를 사용한다.
