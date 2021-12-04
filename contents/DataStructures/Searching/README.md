@@ -38,7 +38,7 @@ public static int sequantialSearch(int n, String target, String[] arr) {
     - 각 Point 들은 값이 아닌 배열의 `Index` 를 나타낸다.
   - 이진 탐색은 데이터를 절 반씩 줄여가면서 탐색하기 때문에 시간 복잡도는 `O(logN)` 이다.
   
-- __절차__
+- __구현 절차__
    1. 배열을 오름차순으로 정렬 (정렬이 안되어있다 가정) : `Arrays.sort(arr);`
    2. 시작점, 끝점 초기화
    3. 중간점 계산식 : `middlePoint = (startPoint + endPoint) / 2;`
@@ -187,7 +187,68 @@ public int solution(int n, int m, int[] arr) {
 }
 ```
 
-# 결정 알고리즘
+# 결정 알고리즘(Decision Algorithm)과 파라메트릭 서치(Parametric Search)
+
+파라메트릭 서치(Parametric Search)는 Parametirc 이라는 단어를 보면 알 수 있듯이 `매개 변수를 이용한 탐색 기법`이라는 것을 알 수 있다. 파라메트릭 서치(Parametric Search) 는 `최적화 문제` 를 `결정 문제` 로 바꾸어 해결하는 기법이다. 즉, 결정 알고리즘을 사용한다. 결정 알고리즘은 `이분 검색(Binary Search)`을 사용하는데 구하고자하는 답이, 원소의 나열 안에(`<-startPoint---------------endPoint->`) 존재하는 경우에 사용한다. 문제의 풀이 아이디어는 `구하고자하는 답(answer)을 반복해서 조정`한다.
+
+자, 이해하기 쉽게 정리하자면 __"파라메트릭 서치(Parametric Search)는 `매개변수를 이용한 탐색 기법`이며 최적화된 답을 구하기 위해 `결정 알고리즘`을 사용한다."__ 라고 할 수 있다.
+
+> 대부분의 블로그 글을 보더라도 파라메트릭 서치(Parametric Search)는 최적화된 문제를 결정문제로 바꾸어서 푼다라고만 설명되어있다. 매개변수라는 포인트를 짚어서 설명한 글을 찾기가 힘들다.
+> 책을 포함한 결정 알고리즘 문제 3개를 분석하면서 왜 `Parametric` 이라는 단어를 썼을까 분석해보았다. 개인적인 의견이 들어간 부분일 수 있어서 필터링 해서 받아들이면 될 것 같다.
+
+- __파라메트릭 서치(Parametric Search)__
+    - 매개 변수를 이용한 탐색 기법
+    - 최적화 문제를 결정 알고리즘을 사용하여 해결
+        - 결정 알고리즘은 이진 탐색을 사용
+        - 결정 알고리즘은 원소의 나열 안에 구하고자 하는 답이 존재하는 경우 사용
+    - 문제 풀이 아이디어 : 구하고자하는 답(answer)을 반복해서 조정
+        - 즉, 구하고자 하는 답(answer)는 반복문 안에서 계속해서 변경된다.
+        - 구하고자하는 답(answer)은 반복문안에서 계속해서 변경되는 중간점(middlePoint)를 의미한다.
+        - 즉, 결정 알고리즘에서는 최종적으로 middlePoint 가 answer 가 된다.
+- __문제를 읽고 파라메트릭 서치(Parametric Search) 사용해야하는지 안하는지에 대한 판단 기준__
+    - 최적화된 값을 요구한다.
+    - 구하고자 하는 값의 범위가 상당히 큰 경우
+    - 이분 검색을 사용해야 하는 경우
+    - Hint. 위 세개와 비슷한 느낌을 받으며, 문제에서 다음과 같은 문구가 주어진다. `최댓값 혹은 최솟값 을 구하세요. 출력하세요.` 이러면 거의 결정 알고리즘(Decision Algorithm) 문제일 가능성이 높다.
+        - Ex. 첫 줄에 ~ 최대 거리를 출력하세요.
+        - Ex. 첫 줄에 ~ 최솟값을 출력하세요.
+
+다시, Parametric 이라는 단어가 왜 사용되었을지 분석해보자. "매개변수를 이용한다라는 의미가 무엇일까 ?" 매개변수는 함수(메서드) 시그니처에 존재하는 변수이다. 즉, `함수를 사용`한다는 것이다.
+함수를 사용하는데 그러면 어떤 함수를 만들라는 것인지 궁금할 수 있다. 핵심은 `구하고자하는 답(answer)을 반복해서 조정하기 위한 판단을 내려주는 함수` 를 만드는 것이다. 즉, `최적화된 값을 구하기 위해 판단을 내려주는 함수`라고 생각하면 된다. 이 함수는 문제에 따라 내부 구현 방식이 당연히 달라진다. (문제 마다 조건이 다르기 때문이다.) 단순 이진 탐색 구현에는 함수는 필요가 없다. 이것이 단순 이진 탐색과의 첫 번째 차이점이다. 
+
+최적화된 값을 구하기 위해 판단을 내려주는 함수(`decisionToFindTheOptimizedValue`)를 사용한다라는 것까진 이해가 됐을것이다. 그러면 해당 함수에 어떤 파라미터(Parameter)를 넘겨주는지가 두 번째 핵심인데, 입력 값을 가지고 있는 배열과 구하고자하는 답(answer)을 파라미터로 넘겨준다. (만약, 배열을 static 으로 선언했다면 answer 만 넘겨주면 될 것이다. 어쨋든 함수 내부에서는 배열과 answer 둘 다 필요하다라는 의미이다.)
+
+decisionToFindTheOptimizedValue 함수의 결과랑 조건(M)의 값과 비교하여 조건이 함수의 결과보다 작거나 같으면 시작점(startPoint)을 증가시키면서 answer 의 값을 중간점(middlePoint)으로 갱신해주면 된다. 함수의 결과보다 크다면 끝점(endPoint) 를 감소시킨다. 근데 이 부분은 문제에서 최댓값을 구하는 경우에 그렇다.
+
+- __최댓값을 구하는 경우__
+
+```java
+if(decisionToFindTheOptimizedValue(arr, middlePoint) >= m) {
+    answer = middlePoint;
+    startPoint = middlePoint + 1;
+} else {
+    endPoint = middlePoint - 1;
+}
+```
+
+반면 최솟값을 구하는 경우에는 조금 달라질 수도 있다.
+
+- __최솟값을 구하는 경우__
+
+```java
+if(decisionToFindTheOptimizedValue(arr, middlePoint) <= m) {
+    answer = middlePoint;
+    endPoint = middlePoint - 1;
+} else {
+    startPoint = middlePoint + 1;
+}
+```
+
+- __최종 구현 Sample__
+
+```java
+
+```
 
 ## [뮤직비디오(결정알고리즘)](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/searching/musicvideo/Main.java)
 
@@ -216,37 +277,42 @@ lt 가 1 이고 rt 가 10000 이라고 할 때 이분검색을 하면 중앙은 
 위 문제 입력 예시 `1 2 3 4 5 6 7 8 9` 기준으로 lt, rt 값을 정하면 lt 는 9가 되며, rt 는 45가된다.
 
 ```java
-// 두 말의 최대 거리(dist)를 기준으로 배치할 수 있는 말의 마리 수
-public int count(int[] arr, int dist){
-    int cnt=1;
-    int endPosition=arr[0];
-    for(int i=1; i<arr.length; i++){
-        if(arr[i]-endPosition>=dist){
+public int count(int[] arr, int capacity){
+    int cnt = 1, sum = 0; // cnt dvd 장 수 -> 첫 번째 장에 담는 다는 의미
+    for(int x : arr) {
+        if(sum + x > capacity) {
             cnt++;
-            endPosition=arr[i];
+            sum = x;
+        }
+        else {
+            sum += x;
         }
     }
-    return cnt; // 배치한 말의 마리 수
+
+    return cnt;
 }
 
 /**
- * @param n 배열 크기
- * @param c 배치하고싶은 말의 마리 수
- * @param arr 마구간 좌표
+ * @param n 배열 사이즈
+ * @param m DVD 갯수
+ * @param arr 부른 곡의 길이 배열
  */
-public int solution(int n, int c, int[] arr){
-    int answer=0;
-    Arrays.sort(arr); // 마구간 좌표 오름차순 정렬
-    int lt=1;
-    int rt=arr[n-1]; // 마지막 인덱스 값
-    while(lt<=rt){
-        int mid=(lt+rt)/2; // 두 말의 최대 거리
-        if(count(arr, mid)>=c){ // 배치한 말의 마리수 >= 배치 하고 싶은 말의 마리 수
-            answer=mid;
-            lt=mid+1;
+public int solution(int n, int m, int[] arr) {
+    int answer = 0;
+    int lt = Arrays.stream(arr).max().getAsInt();
+    int rt = Arrays.stream(arr).sum();
+
+    // 이분 검색으로 쪼갠 중간 값(mid)이 DVD 의 용량(capacity)을 나타낸다.
+   while(lt <= rt) {
+        int mid = (lt + rt) / 2; // DVD Capacity
+        if(count(arr, mid) <= m) {
+            answer = mid;
+            rt = mid - 1;
+        } else {
+            lt = mid + 1;
         }
-        else rt=mid-1;
     }
+
     return answer;
 }
 ```
