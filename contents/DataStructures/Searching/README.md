@@ -23,8 +23,8 @@ public static int sequantialSearch(int n, String target, String[] arr) {
 ```
 
 - __시간 복잡도__
- - `O(N)`
- - 최악의 경우에는 데이터 개수가 N 개일 때 N 번의 비교 연산이 필요하기 때문이다.
+  - `O(N)`
+  - 최악의 경우에는 데이터 개수가 N 개일 때 N 번의 비교 연산이 필요하기 때문이다.
  
 # 이분 검색(이진 탐색, Binary Search)
 
