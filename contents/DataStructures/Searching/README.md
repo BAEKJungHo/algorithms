@@ -1,6 +1,91 @@
-# 이분 검색
+# 순차 탐색(Sequential Search)
 
-Point. __이분 검색은 말 그대로 반으로 쪼개서 찾고자 하는 값이 해당되지 않는 범위는 날리고, 다시 쪼개진 반에서 이분 검색을 실시한다. 이분 검색을 실시하기전에 오름차순 정렬이 되어있어야 한다.__
+순차 탐색이란 __리스트 안에 있는 특정한 데이터를 찾기 위해 앞에서부터 데이터를 하나씩 차례대로 확인하는 방법__ 이다. 보통 정렬되지 않은 리스트에서 데이터를 찾아야할 때 사용하며, 리스트 내에 데이터가 아무리 많아도 시간만 충분하면 결과를 찾을 수 있다.
+
+## 구현
+
+```java
+/**
+ * @param n 입력 데이터 개수
+ * @param target 찾고자 하는 문자열
+ * @param arr 배열
+ */
+public static int sequantialSearch(int n, String target, String[] arr) {
+    // 각 원소를 하나씩 확인하며
+    for (int i = 0; i < n; i++) {
+        // 현재의 원소가 찾고자 하는 원소와 동일한 경우
+        if (arr[i].equals(target)) {
+            return i + 1; // 현재의 위치 반환 (인덱스는 0부터 시작하므로 1 더하기)
+        }
+    }
+    return -1; // 원소를 찾지 못한 경우 -1 반환
+}
+```
+
+- __시간 복잡도__
+ - `O(N)`
+ - 최악의 경우에는 데이터 개수가 N 개일 때 N 번의 비교 연산이 필요하기 때문이다.
+ 
+# 이분 검색(이진 탐색, Binary Search)
+
+이분 검색은 __말 그대로 반으로 쪼개서 찾고자 하는 값이 해당되지 않는 범위는 날리고, 다시 쪼개진 반에서 이분 검색을 실시한다. 이분 검색을 실시하기전에 오름차순 정렬이 되어있어야 한다.__
+
+- __특징__
+  - 탐색 범위를 반으로 좁혀가면서 탐색
+  - 이진 탐색은 데이터를 절 반씩 줄여가면서 탐색하기 때문에 시간 복잡도는 `O(logN)` 이다.
+
+- __절차__
+  - 위치를 나타내는 변수 3개 사용 : 시작점(startPoint = 0), 끝점(endPoint = n-1), 중간점(middlePoint)
+    - 각 Point 들은 값이 아닌 배열의 `Index` 를 나타낸다.
+      1. 중간점 계산식 : `middlePoint = (startPoint + endPoint) / 2;`
+        - 중간점(middlePoint) 가 실수일 경우에는 소수점을 버린다. (Ex. (0 + 3) / 2  -> middlePoint = 1)
+      2. 중간점과 찾고자 하는 값(target)을 비교한다.
+      3. 찾고자 하는 데이터가 더 작은 쪽에 속하면 끝점 index 를 감소 : `endPoint = middlePoint - 1;`
+      4. 찾고자 하는 데이터가 더 큰 쪽에 속하면 시작점 index 를 증가 : `startPoint = middlePoint + 1;`
+      5. 2번 또는 3번을 수행하고나서 1번(중간점 계산식)을 수행. 즉, 중간점을 다시 계산
+ - `찾으려는 데이터와 중간점(Middle) 위치에 있는 데이터를 반복적으로 비교` 해서 원하는 데이터를 찾는 과정
+
+"이진 탐색에 대한 구현은 `손 코딩`으로도 나올만한 문제라고 합니다. 따라서 `절차`를 잘 기억하고 있어야 합니다."
+
+## 구현
+
+```java
+private static int n; // 입력 데이터 개수
+private static int[] arr; // 탐색 대상인 배열
+private static int target; // 찾고자 하는 값
+
+public static int solution() {
+  // 찾고자 하는 값의 위치
+  int targetIndex = 0;
+
+  // 시작점, 끝점 초기화
+  int startPoint = 0;
+  int endPoint = n - 1;
+  
+  // endPoint 의 index 가 더 크거나 같을 때 까지 반복
+  while(startPoint <= endPoint) {
+    // 중간점 계산
+    int middlePoint = (startPoint + endPoint) / 2;
+    
+    // 중간점이 target 값과 동일한 경우    
+    if(arr[middlePoint] == target) { 
+       targetIndex = middlePoint; // 문제에 따라서 위치 번호를 출력하라고 하면 middlePoint + 1 이 될 수도 있음.
+       break;
+    }
+    
+    // 찾고자 하는 데이터가 더 작은 쪽에 속하면 끝점 index 를 감소
+    if(arr[middlePoint] < target) {  
+       endPoint = middlePoint - 1;
+    } 
+    // 찾고자 하는 데이터가 더 큰 쪽에 속하면 시작점 index 를 증가
+    else {
+       startPoint = middlePoint + 1;
+    }
+  }
+  
+  return targetIndex;
+}
+```
 
 ## [이분 검색](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/sorting/binarysearch/Main.java)
 
