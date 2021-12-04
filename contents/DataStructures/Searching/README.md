@@ -257,7 +257,7 @@ public class Main {
         int sum = 0;
         for(int element : arr) {
             if(element > middlePoint) {
-                sum += riceCake - middlePoint;
+                sum += element - middlePoint;
             }
         }
         return sum;
@@ -277,8 +277,7 @@ func decisionAlgorithm() {
 }
 ```
 
-> 단, 결정 알고리즘을 사용하는 모든 문제가 이렇다라는것은 아니다..(맞을 수도 있고 아닐 수도 있고), 하지만 몇몇 문제를 분석해본 결과 떡볶이 문제랑 비슷하거나 조금 더 어려운 수준의 문제는 위와 같은 스타일로 해결할 수 있는 것 같다.
-
+> 단, 결정 알고리즘을 사용하는 모든 문제가 이렇다라는것은 아니다.(맞을 수도 있고 아닐 수도 있고), 하지만 몇몇 문제를 분석해본 결과 떡볶이 문제랑 비슷하거나 조금 더 어려운 수준의 문제는 위와 같은 스타일로 해결할 수 있는 것 같다.
 
 ## [뮤직비디오(결정알고리즘)](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/searching/musicvideo/Main.java)
 
