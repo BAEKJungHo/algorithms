@@ -31,23 +31,29 @@ public static int sequantialSearch(int n, String target, String[] arr) {
 이분 검색은 __말 그대로 반으로 쪼개서 찾고자 하는 값이 해당되지 않는 범위는 날리고, 다시 쪼개진 반에서 이분 검색을 실시한다. 이분 검색을 실시하기전에 오름차순 정렬이 되어있어야 한다.__
 
 - __특징__
-  - 탐색 범위를 반으로 좁혀가면서 탐색
-  - 이진 탐색은 데이터를 절 반씩 줄여가면서 탐색하기 때문에 시간 복잡도는 `O(logN)` 이다.
-
-- __절차__
-  - 위치를 나타내는 변수 3개 사용 : 시작점(startPoint = 0), 끝점(endPoint = n-1), 중간점(middlePoint)
+  - 탐색 범위를 반으로 좁혀가면서 탐색 
+  - 탐색을 실시하기전에 `오름차순 정렬`이 되어있어야 한다.
+  - 입력 데이터 개수의 범위가 1,000 만을 넘어가면 이진 탐색 혹은 `O(logN)` 의 속도를 내야 하는 알고리즘을 떠올려야 한다.
+  - 위치를 나타내는 변수 3개 사용 : `시작점(startPoint = 0), 끝점(endPoint = n-1), 중간점(middlePoint)`
     - 각 Point 들은 값이 아닌 배열의 `Index` 를 나타낸다.
-      1. 중간점 계산식 : `middlePoint = (startPoint + endPoint) / 2;`
-         - 중간점(middlePoint)이 실수일 경우에는 소수점을 버린다. (Ex. (0 + 3) / 2  -> middlePoint = 1)
-      2. 중간점과 찾고자 하는 값(target)을 비교한다.
-      3. 찾고자 하는 데이터가 더 작은 쪽에 속하면 끝점 index 를 감소 : `endPoint = middlePoint - 1;`
-      4. 찾고자 하는 데이터가 더 큰 쪽에 속하면 시작점 index 를 증가 : `startPoint = middlePoint + 1;`
-      5. 2번 또는 3번을 수행하고나서 1번(중간점 계산식)을 수행. 즉, 중간점을 다시 계산
+  - 이진 탐색은 데이터를 절 반씩 줄여가면서 탐색하기 때문에 시간 복잡도는 `O(logN)` 이다.
+  
+- __절차__
+   1. 배열을 오름차순으로 정렬 (정렬이 안되어있다 가정) : `Arrays.sort(arr);`
+   2. 시작점, 끝점 초기화
+   3. 중간점 계산식 : `middlePoint = (startPoint + endPoint) / 2;`
+      - 중간점(middlePoint)이 실수일 경우에는 소수점을 버린다. (Ex. (0 + 3) / 2  -> middlePoint = 1)
+   4. 중간점과 찾고자 하는 값(target)을 비교한다.
+   5. 찾고자 하는 데이터가 더 작은 쪽에 속하면 끝점 index 를 감소 : `endPoint = middlePoint - 1;`
+   6. 찾고자 하는 데이터가 더 큰 쪽에 속하면 시작점 index 를 증가 : `startPoint = middlePoint + 1;`
+   7. 2번 또는 3번을 수행하고나서 1번(중간점 계산식)을 수행. 즉, 중간점을 다시 계산
  - `찾으려는 데이터와 중간점(Middle) 위치에 있는 데이터를 반복적으로 비교` 해서 원하는 데이터를 찾는 과정
 
 "이진 탐색에 대한 구현은 `손 코딩`으로도 나올만한 문제라고 합니다. 따라서 `절차`를 잘 기억하고 있어야 합니다."
 
 ## 구현
+
+### while 문으로 구현하기
 
 ```java
 private static int n; // 입력 데이터 개수
@@ -62,9 +68,13 @@ public static int solution() {
   int startPoint = 0;
   int endPoint = n - 1;
   
+  // 배열 오름차순 정렬
+  Arrays.sort(arr);
+  
   // endPoint 의 index 가 더 크거나 같을 때 까지 반복
   while(startPoint <= endPoint) {
         // 중간점 계산
+        // while 문 안에 선언하는 이유는 아래에서 startPoint 와 endPoint 의 인덱스 변화가 있을때 다시 계산하기 위함이다.
         int middlePoint = (startPoint + endPoint) / 2;
 
         // 중간점이 target 값과 동일한 경우    
@@ -86,6 +96,49 @@ public static int solution() {
   return targetIndex;
 }
 ```
+
+### 재귀로 구현하기
+
+재귀는 사실 별로 추천하지 않는다. 현업에서도 재귀를 쓸일이 많이 없으며, 쓴다하더라도 `재귀의 늪`에 빠질 수 있기 때문에 가급적 추천안한다.
+또한, 재귀를 쓴다고하면 재귀를 쓴 이유부터해서 트집잡을게 많아진다고 생각한다.
+
+```java
+// 이진 탐색 소스코드 구현(재귀 함수)
+public static int binarySearch(int[] arr, int target, int start, int end) {
+    if (start > end) return -1;
+    int mid = (start + end) / 2;
+    // 찾은 경우 중간점 인덱스 반환
+    if (arr[mid] == target) return mid;
+    // 중간점의 값보다 찾고자 하는 값이 작은 경우 왼쪽 확인
+    else if (arr[mid] > target) return binarySearch(arr, target, start, mid - 1);
+    // 중간점의 값보다 찾고자 하는 값이 큰 경우 오른쪽 확인
+    else return binarySearch(arr, target, mid + 1, end);
+}
+```
+
+## 이진 탐색 트리(Binary Search Tree)
+
+트리 자료구조는 그래프 자료구조의 일종으로 데이터베이스 시스템이나 파일 시스템과 같은 곳에서 많은 양의 데이터를 관리하기 위한 목적으로 사용한다.
+
+- __트리 자료구조 특징__
+    - 트리는 부모 노드와 자식 노드의 관계로 표현된다.
+    - 트리의 최상단 노드를 루트 노드(root node)라고 한다.
+    - 트리의 최하단 노드를 단말 노드(leaf node)라고 한다.
+    - 트리에서 일부를 떼어내도 트리 구조이며, 이를 서브 트리(sub tree)라고 한다.
+    - 트리는 파일 시스템과 같이 계층적이고 정렬된 데이터를 다루기에 효과적이다.
+
+큰 데이터를 처리하는 소프트웨어는 대부분 데이터를 트리 자료구조로 저장해서 이진 탐색과 같은 탐색 기법을 사용하여 빠르게 탐색이 가능하다.
+
+이진 탐색 트리는 트리 자료구조 중에서 가장 간단한 트리이다.
+
+- __이진 탐색 트리의 특징__
+    - 부모 노드보다 왼쪽 자식 노드가 작다.
+    - 부모 노드보다 오른쪽 자식 노드가 크다.
+    - 이진 탐색 트리 자료구조를 구현하라고하는 문제는 출제 빈도가 낮다.
+
+
+
+# 기본 문제
 
 ## [이분 검색](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/sorting/binarysearch/Main.java)
 
