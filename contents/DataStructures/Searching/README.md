@@ -140,60 +140,13 @@ public static int binarySearch(int[] arr, int target, int start, int end) {
 
 찾고자 하는 값이 `37`이면 30 기준으로 이진 탐색을 실시하면 된다. 일단 루트 노드보다 찾고자하는 값이 크므로 왼쪽을 날리고, 오른쪽 그래프에서 다시 이진 탐색을 실시한다.
 
-# 기본 문제
-
-## [이분 검색](https://github.com/BAEKJungHo/algorithms/blob/master/src/src/main/java/inflearn/sorting/binarysearch/Main.java)
-
-```java
-/**
- * # 이분 검색(Binary Search)
- *
- * 설명
- * 임의의 N개의 숫자가 입력으로 주어집니다. N개의 수를 오름차순으로 정렬한 다음 N개의 수 중 한 개의 수인 M이 주어지면
- * 이분검색으로 M이 정렬된 상태에서 몇 번째에 있는지 구하는 프로그램을 작성하세요. 단 중복값은 존재하지 않습니다.
- *
- * 입력
- * 첫 줄에 한 줄에 자연수 N(3<=N<=1,000,000)과 M이 주어집니다.
- * 두 번째 줄에 N개의 수가 공백을 사이에 두고 주어집니다.
- *
- * 출력
- * 첫 줄에 정렬 후 M의 값의 위치 번호를 출력한다.
- *
- * 예시 입력 1
- * 8 32
- * 23 87 65 12 57 32 99 81
- *
- * 예시 출력 1
- * 3
- */
- ```
-
-```java
-// Binary Search
-public int solution(int n, int m, int[] arr) {
-    int answer = 0;
-    Arrays.sort(arr);
-    int lt = 0, rt = n-1;
-    while(lt <= rt){
-        int mid = (lt + rt) / 2;
-        if(arr[mid] == m) {
-            answer = mid + 1;
-            break;
-        }
-        if(arr[mid] > m) rt = mid - 1; // 찾고자하는 값이 더 작은 쪽에 있다면 검색범위 큰 쪽을 아예 날린다. = mid - 1;
-        else lt = mid + 1; // 찾고자하는 값이 더 큰 쪽에 있다면 검색범위 작은 쪽을 아예 날린다.
-    }
-    return answer;
-}
-```
-
 # 결정 알고리즘과 파라메트릭 서치
 
 파라메트릭 서치(Parametric Search)는 Parametirc 이라는 단어를 보면 알 수 있듯이 `매개 변수를 이용한 탐색 기법`이라는 것을 알 수 있다. 파라메트릭 서치(Parametric Search) 는 `최적화 문제` 를 `결정 문제` 로 바꾸어 해결하는 기법이다. 즉, 결정 알고리즘(Decision Algorithm)을 사용한다. 결정 알고리즘은 `이분 검색(Binary Search)`을 사용하는데 구하고자하는 답이, 원소의 나열 안에(`<-startPoint---------------endPoint->`) 존재하는 경우에 사용한다. 문제의 풀이 아이디어는 `구하고자하는 답(answer)을 반복해서 조정`한다.
 
 자, 이해하기 쉽게 정리하자면 __"파라메트릭 서치(Parametric Search)는 `매개변수를 이용한 탐색 기법`이며 최적화된 답을 구하기 위해 `결정 알고리즘`을 사용한다."__ 라고 할 수 있다.
 
-> 대부분의 블로그 글을 보더라도 파라메트릭 서치(Parametric Search)는 최적화된 문제를 결정문제로 바꾸어서 푼다라고만 설명되어있다. 매개변수라는 포인트를 짚어서 설명한 글을 찾기가 힘들다.
+> 대부분의 블로그 글을 보더라도 파라메트릭 서치(Parametric Search)는 최적화된 문제를 결정문제로 바꾸어서 푼다라고만 설명되어있다. 매개변수라는 포인트를 짚어서 설명한 글을 찾기가 힘들다. 심지어 인프런 인강에서 조차 명쾌하게 설명해주질 않는다. 
 > 책을 포함한 결정 알고리즘 문제 3개를 분석하면서 왜 `Parametric` 이라는 단어를 썼을까 분석해보았다. 개인적인 의견이 들어간 부분일 수 있어서 필터링 해서 받아들이면 될 것 같다.
 
 - __파라메트릭 서치(Parametric Search)__
@@ -205,6 +158,11 @@ public int solution(int n, int m, int[] arr) {
         - 즉, 구하고자 하는 답(answer)는 반복문 안에서 계속해서 변경된다.
         - 구하고자하는 답(answer)은 반복문안에서 계속해서 변경되는 중간점(middlePoint)를 의미한다.
         - 즉, 결정 알고리즘에서는 최종적으로 middlePoint 가 answer 가 된다.
+    - 단순 이진 탐색 구현과의 차이점
+        - 함수를 사용한다.
+        - 결정 알고리즘에서 시작점(startPoint) : 입력 값 n 의 시작 범위 (1 <= n <= 1000000 이므로 1)
+        - 결정 알고리즘에서 끝점(endPoint) : 배열의 마지막 원소 값(`arr[n-1]`)
+        - 반복문이 끝난 middlePoint 가 answer 가 된다.
 - __문제를 읽고 파라메트릭 서치(Parametric Search) 사용해야하는지 안하는지에 대한 판단 기준__
     - 최적화된 값을 요구한다.
     - 구하고자 하는 값의 범위가 상당히 큰 경우
