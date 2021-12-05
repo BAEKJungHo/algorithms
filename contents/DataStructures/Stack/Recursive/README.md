@@ -515,7 +515,9 @@ public class Memoization {
 }
 ```
 
+![IMAGES](../../images/memoization.png)
 
+> 이미지 출처 : [Namu wiki](https://namu.wiki/w/%EB%A9%94%EB%AA%A8%EC%9D%B4%EC%A0%9C%EC%9D%B4%EC%85%98)
 
 ## References 
 
