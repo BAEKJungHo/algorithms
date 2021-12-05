@@ -16,7 +16,7 @@ public class Main {
 }
 ```
 
-재귀 함수는 종료 조건이 무조건 있어야 한다. 그렇지 않으면 무한 루프에 빠질 수 있다.
+재귀 함수는 `종료 조건`이 무조건 있어야 한다. 그렇지 않으면 무한 루프에 빠질 수 있다.
 
 ```java
 public class Main {
@@ -85,6 +85,11 @@ public class Main {
 - __Factorial 점화식__
   - n 이 0이거나 1일때 : factorial(n) = 1
   - n 이 1보다 클 때 : factorial(n) = n x factorial(n-1)  
+
+- __재귀 특징 정리__
+    - 스택 사용
+    - 점화식으로 표현 할 수 있어야 함
+    - 종료 조건 필수
 
 ## 스택(Stack)과 재귀(Recursive)
 
