@@ -519,6 +519,9 @@ public class Memoization {
 
 > 이미지 출처 : [Namu wiki](https://namu.wiki/w/%EB%A9%94%EB%AA%A8%EC%9D%B4%EC%A0%9C%EC%9D%B4%EC%85%98)
 
+fibonacci(5) 를 호출하게되면 점화식에 의해 좌측으로 fibonacci(n - 1) 이 호출되며, 우측으로 fibonacci(n - 2) 가 호출된다.
+(코드 상으로는 사실 fibonacci(n - 1) + fibonacci(n - 2) 이렇게 되야 그림이랑 일치한다.) 우측편에서는 fibonacci(3) 까지만 호출되며 아래 노드들은 생기지 않는다. 지금은 5로 해놔서 그렇지만 입력 값이 1000 이상이 넘어간다고하면 많은 시간 절약을 할 수 있다.
+
 ## References 
 
 > https://velog.io/@dldhk97/%EC%9E%AC%EA%B7%80%ED%95%A8%EC%88%98%EC%99%80-%EA%BC%AC%EB%A6%AC-%EC%9E%AC%EA%B7%80
