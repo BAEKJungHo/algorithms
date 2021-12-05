@@ -320,3 +320,9 @@ public class Main {
 (2,1) (2,2) (2,3)
 (3,1) (3,2) (3,3)
 ```
+
+## 이진 트리(Binary Tree)
+
+- 전위 순회 : root -> left -> left(leaf) -> right -> 다시 루트로 올라와서 -> right -> left(leaf) -> right
+- 중위 순회(왼-부-오) : left(leaf) -> parent -> right(leaf) -> 자식 탐색 끝났으면 다시 자기 부모 찾아서 -> root -> 다시 단말 노드부터 -> left(leaf) -> parent -> right(leaf)
+- 후위 순회(왼-오-부) : left(leaf) -> right(leaf) -> parent -> 오른쪽 가지로 넘어와서 -> left(leaf) -> right(leaf) -> parent -> root
