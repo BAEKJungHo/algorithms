@@ -384,6 +384,139 @@ public static TailCall factorialTail(int n, int total) {
 - Kotlin 의 Tail Call Optimization 은 컴파일러 레벨에서 지원되며, 그 결과 Stack Overflow 의 위험 없는 최적화된 코드가 만들어진다.
 - Java 언어는 '아직' Tail Call Optimization 을 지원하지 않고 있으며, '언젠가는 지원하지 않을까?' 라는게 자바 아키텍트의 의견이다.
 
+# 메모이제이션(Memoization)
+
+자바에서 직접 꼬리 재귀를 사용하도록 구현하는 것은 힘들다라는 것을 느꼈을 것이다. 재귀를 사용하는 알고리즘에서 성능을 극대화 하는 방법 중 하나가 `메모이제이션(Memoization)`이라는 기법이 있다. 메모이제이션(Memoization)은 컴퓨터 프로그램이 동일한 계산을 반복해야 할 때, `이전에 계산한 값을 메모리에 저장함으로써 동일한 계산의 반복 수행을 제거`하여 프로그램 실행 속도를 빠르게 하는 기술이다. 동적 계획법(Dynamic Programming)의 핵심이 되는 기술이다.
+
+"이전에 계산한 값을 메모리(배열, 리스트 등)에 저장함으로써 동일한 계산의 반복 수행을 제거" 이 부분이 핵심이다.
+
+이번엔 피보나치 수열(Fibonacci numbers)을 예시로 들어설명하겠다. 문제에서 요구하는 사항은 다음과 같다. 입력값 N 이 주어졌을 때 N 만큼의 피보나치 수열을 구하여 출력하라는 것이다.
+
+> 피보나치 수열(Fibonacci numbers) : 앞의 2개의 수를 합하여 다음 숫자가 되는 수열
+
+```
+Input : 5
+Output : 1 1 2 3 5
+```
+
+## Step 1. 가장 허접한 코드
+
+위에서 재귀를 사용하기 전에 `점화식`을 작성하라고 배웠다. 피보나치 수열의 점화식을 작성하면 다음과 같다.
+
+- `Fibonacci(n) = Fibonacci(n-2) + Fibonacci(n-1)`
+
+```java
+public class Main {
+
+    private static int n;
+
+    public static void main(String[] args) {
+        initializeInputData();
+        for (int i = 1; i <= n; i++) {
+            System.out.print(fibonacci(i) + " ");
+        }
+    }
+
+    private static void initializeInputData() {
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+    }
+
+    // 점화식 fibonacci(n) = fibonacci(n-1) + fibonacci(n-2)
+    // 종료 조건 n == 1 || n == 2
+    private static int fibonacci(int n) {
+        if(n == 1 || n == 2) {
+            return 1;
+        } else {
+            return fibonacci(n - 2) + fibonacci(n - 1);
+        }
+    }
+}
+```
+
+## Step 2. 피보나치 결과를 배열에 저장하고 반복하여 출력
+
+```java
+public class MainTwo {
+
+    private static int n;
+    private static int[] fibonacciResult;
+
+    public static void main(String[] args) {
+        initializeInputData();
+        fibonacci(n);
+        for (int i = 1; i <= n; i++) {
+            System.out.print(fibonacciResult[i] + " ");
+        }
+    }
+
+    private static void initializeInputData() {
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        fibonacciResult = new int[n + 1];  // 1 1 2 3 ... 따라서 0 번째 인덱스는 필요 없음
+    }
+
+    // 점화식 fibonacci(n) = fibonacci(n-1) + fibonacci(n-2)
+    // 종료 조건 n == 1 || n == 2
+    private static int fibonacci(int n) {
+        if(n == 1 || n == 2) {
+            return fibonacciResult[n] = 1;
+        } else {
+            return fibonacciResult[n] = fibonacci(n - 2) + fibonacci(n - 1);
+        }
+    }
+}
+```
+
+위 코드의 단점은 시간이 오래 걸린다라는 것이다. 입력값 N 을 45 로만 줘도 한 4초가 걸린다. 위 코드를 메모이제이션 기법을 적용하여 1초 미만으로 줄여보겠다.
+
+## Step 3. 메모이제이션 적용
+
+```java
+public class Memoization {
+
+    private static int n;
+    private static int[] fibonacciResult;
+
+    public static void main(String[] args) {
+        initializeInputData();
+        fibonacci(n);
+        for (int i = 1; i <= n; i++) {
+            System.out.print(fibonacciResult[i] + " ");
+        }
+    }
+
+    private static void initializeInputData() {
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        fibonacciResult = new int[n + 1];  // 1 1 2 3 ... 따라서 0 번째 인덱스는 필요 없음
+    }
+
+    // 점화식 fibonacci(n) = fibonacci(n-1) + fibonacci(n-2)
+    // 종료 조건 n == 1 || n == 2
+    private static int fibonacci(int n) {
+        // Memoization 기법 사용 : 입력값 N 에 대한 결과가 존재하면 메모리에 들어있는 값을 재활용
+        if(hasResult(n)) {
+            return fibonacciResult[n];
+        }
+
+        // 재귀를 이용한 Fibonacci 계산
+        if (n == 1 || n == 2) {
+            return fibonacciResult[n] = 1;
+        } else {
+            return fibonacciResult[n] = fibonacci(n - 2) + fibonacci(n - 1);
+        }
+    }
+
+    // 처음에 배열이 0으로 초기화 되니까 0 보다 크면 이미 계산된 값이 존재한다는 의미
+    private static boolean hasResult(int n) {
+        return fibonacciResult[n] > 0;
+    }
+}
+```
+
+
+
 ## References 
 
 > https://velog.io/@dldhk97/%EC%9E%AC%EA%B7%80%ED%95%A8%EC%88%98%EC%99%80-%EA%BC%AC%EB%A6%AC-%EC%9E%AC%EA%B7%80
