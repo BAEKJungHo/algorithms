@@ -12,3 +12,6 @@
 
 $$a_{n}= a_{n-1} + a_{n-2}, a_{1} = 1, a_{2} = 1$$  
 
+$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}$$
+
+$x = {-b \pm \sqrt{b^2-4ac} \over 2a}$
