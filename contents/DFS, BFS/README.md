@@ -389,7 +389,7 @@ public class Main {
     }
 
     /**
-     * @param L 각 뎁스에 해당하는 숫자를 의미 N이 3이면 L 은 1 ~ 4 까지의 DEPTH 를 가진다.
+     * @param L 각 뎁스에 해당하는 숫자를 의미 N 이 3이면 L 은 1 ~ 4 까지의 DEPTH 를 가진다.
      */
     private static void dfs(int L) {
         if(L == N + 1) { // 종료 조건을 만나면 checked 의 원소가 true 인 애들을 출력
