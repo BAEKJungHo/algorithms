@@ -281,7 +281,7 @@ public class Main {
 ```java
 class Edge implements Comparable<Edge> {
     public int vex;
-	  public int cost;
+    public int cost;
     Edge(int vex, int cost) {
         this.vex = vex;
         this.cost = cost;
@@ -333,6 +333,7 @@ class Main {
 			int a=kb.nextInt();
 			int b=kb.nextInt();
 			int c=kb.nextInt();
+			// a 에서 b 로 가는데 c 의 비용이 든다.
 			graph.get(a).add(new Edge(b, c));
 		}
     
@@ -347,6 +348,10 @@ class Main {
 ```
 
 - `dis[i]` : 문제에서 1번 정점에서 시작하니까, 1번 정점에서 i 번째 정점까지 가는데 최소비용을 저장하겠다라는 의미
+
+![IMAGES](./images/dijkstranormal.JPG)
+
+위의 방법은 `구현하기 쉽지만 느리게 동작하는 코드`로 짰을때 앞에서 부터 순차 탐색하는 경우의 동작방식을 나타낸다. 하지만 보통 다익스트라 알고리즘 문제는 `PriorityQueue` 를 사용하여 속도를 개선하기 때문에 문제 풀이에서 PriorityQueue 를 사용하였다.
 
 ## References
 
