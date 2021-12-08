@@ -13,4 +13,4 @@
 
 ## 다익스트라 알고리즘(Dijkstra algorithm)
 
-<img src="https://commons.wikimedia.org/wiki/File:Dijkstra_Animation.gif" width="300"> 
+<img src="./images/Dijkstra_Animation.gif" width="300"> 
