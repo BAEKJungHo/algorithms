@@ -36,11 +36,20 @@ a와 b 사이의 최단 경로를 찾는 데이크스트라의 알고리즘이�
 다익스트라 알고리즘은 최단 경로를 구하는 과정에서 `각 노드에 대한 현재까지의 최단 거리` 정보를 항상 1차원 리스트에 저장하며 리스트를 계속 갱신한다는 특징이 있다. 이러한 1차원 리스트를 `최단 거리 테이블`이라고 한다. 매번 현재 처리하고 있는 노드를 기준으로 주변 간선을 확인한다.
 
 - __다익스트라 알고리즘을 구현하는 방법__
-  - 구현하기 쉽지만 느리게 동작하는 코드
+  - `구현하기 쉽지만 느리게 동작하는 코드`
     - 간단한 다익스트라 알고리즘의 시간 복잡도 : O(V^2), V : 노드의 개수
     - 처음에 각 노드에 대한 최단 거리를 담는 1차원 리스트 선언
     - 이후에 단계마다 방문하지 않은 노드 중에서 최단 거리가 가장 짧은 노드를 선택하기 위해 매 단계마다 1차원 리스트의 모든 원소를 확인(순차 탐색)한다.
-  - 구현하기에 조금 까다롭지만 빠르게 동작하는 코드
+  - `구현하기에 조금 까다롭지만 빠르게 동작하는 코드`
+    - 개선된 다익스트라 알고리즘의 시간 복잡도 : O(ElogV)
+      - E: 간선의 개수, V: 노드의 개수
+      - 힙(Heap) 자료구조 사용
+      - 힙(Heap) 자료구조는 우선순위 큐(Priority Queue)를 구현하기 위해 사용하는 자료구조 중 하나이다.
+        - 우선순위 큐(Priority Queue)는 우선순위가 가장 높은 데이터를 가장 먼저 삭제한다. 즉, `데이터를 우선순위에 따라 처리하고 싶을 때 사용`한다.
+        - Ex. 여러개의 물건을 자료구조에 넣고, 가치가 가장 높은 물건부터 꺼내야 하는 경우
+      - 우선순위 큐를 구현할 때는 내부적으로 `최소 힙(Min Heap)` 또는 `최대 힙(Max Heap)`을 이용한다. 최소 힙을 이용하는 경우 값이 가장 낮은 데이터가 먼저 삭제되며, 최대 힙은 값이 큰 데이터가 가장 먼저 삭제된다.
+      - 최소 힙을 최대 힙처럼 쓰기위해, 자료구조에 음수 부호(-)를 붙여 넣었다가, 큐에서 꺼낸다음 다시 음수 부호(-)를 븉여서 원래의 값으로 돌리는 방식을 사용할 수 있다.
+      - 개선된 다익스트라 알고리즘에서 우선순위 큐는 `현재 가장 가까운 노드를 저장하기 위한 목적으로만 이용`한다.
 
 다익스트라 알고리즘은 `한 단계당 하나의 노드에 대한 최단 거리를 확실히 찾는다.` 즉, 실제로 한 번 선택된 노드는 최단 거리가 감소하지 않는다.
 
@@ -190,7 +199,7 @@ class Node implements Comparable<Node> {
 
 public class Main {
 
-    public static final int INF = (int) 1e9; // 무한을 의미하는 값으로 10억을 설정
+    public static final int INF = (int) 1e9; // 무한을 의미하는 값으로 10억을 설정 or Integer.MAX_VALUE 도 가능
     // 노드의 개수(N), 간선의 개수(M), 시작 노드 번호(Start)
     // 노드의 개수는 최대 100,000개라고 가정
     public static int n, m, start;
@@ -268,6 +277,76 @@ public class Main {
 ## Example
 
 ![IMAGES](./images/dijkstrasol.JPG)
+
+```java
+class Edge implements Comparable<Edge> {
+    public int vex;
+	  public int cost;
+    Edge(int vex, int cost) {
+        this.vex = vex;
+        this.cost = cost;
+    }
+    @Override
+    public int compareTo(Edge ob){
+        return this.cost-ob.cost;
+    }
+}
+
+class Main {
+
+	static int n, m;
+	static ArrayList<ArrayList<Edge>> graph;
+	static int[] dis;
+  
+	public void solution(int v){
+		PriorityQueue<Edge> pQ = new PriorityQueue<>();
+		pQ.offer(new Edge(v, 0));
+		dis[v]=0;
+		while(!pQ.isEmpty()){
+			Edge tmp=pQ.poll();
+			int now=tmp.vex;
+			int nowCost=tmp.cost;
+			if(nowCost>dis[now]) continue;
+			for(Edge ob : graph.get(now)){
+				if(dis[ob.vex]>nowCost+ob.cost){
+					dis[ob.vex]=nowCost+ob.cost;
+					pQ.offer(new Edge(ob.vex, nowCost+ob.cost));
+				}
+			}
+		}
+	}
+
+	public static void main(String[] args){
+		Main T = new Main();
+		Scanner kb = new Scanner(System.in);
+		n=kb.nextInt();
+		m=kb.nextInt();
+		graph = new ArrayList<ArrayList<Edge>>();
+		for(int i=0; i<=n; i++){
+			graph.add(new ArrayList<Edge>());
+		}
+    
+		dis=new int[n+1];
+		Arrays.fill(dis, Integer.MAX_VALUE);
+    
+		for(int i=0; i<m; i++){
+			int a=kb.nextInt();
+			int b=kb.nextInt();
+			int c=kb.nextInt();
+			graph.get(a).add(new Edge(b, c));
+		}
+    
+		T.solution(1);
+    
+		for(int i=2; i<=n; i++){
+			if(dis[i]!=Integer.MAX_VALUE) System.out.println(i+" : "+dis[i]);
+			else System.out.println(i+" : impossible");
+		}
+	}
+}
+```
+
+- `dis[i]` : 문제에서 1번 정점에서 시작하니까, 1번 정점에서 i 번째 정점까지 가는데 최소비용을 저장하겠다라는 의미
 
 ## References
 
