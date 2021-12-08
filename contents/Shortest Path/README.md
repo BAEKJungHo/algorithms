@@ -17,7 +17,7 @@
 
 a와 b 사이의 최단 경로를 찾는 데이크스트라의 알고리즘이다. 가장 낮은 값을 가진 방문하지 않은 꼭짓점을 선택하고, 방문하지 않은 각 인접 노드와의 거리를 계산하고, 작을 경우 인접 거리를 업데이트한다. 이 그림에서는 꼭짓점에 도착하면 빨간색으로 표시했다.
 
-> 위와 같은 그래프를 방향과 가중치가 있다고 해서 `가중치 방향 그래프`라고도 한다.
+> 위와 같은 그래프를 방향과 가중치가 있다고 해서 `가중치 방향 그래프`라고도 한다. 가중지 방향 그래프를 갖는 문제는 메모리에 `객체(Node)`를 저장해야 한다.
 
 다익스트라의 원래 알고리즘은 두 꼭짓점 간의 가장 짧은 경로를 찾는 알고리즘이지만, 더 일반적인 변형은 한 꼭짓점을 `"소스"` 꼭짓점으로 고정하고 그래프의 다른 모든 꼭짓점까지의 최단경로를 찾는 알고리즘으로 최단 경로 트리를 만드는 것이다. 그래프에서 주어진 소스 꼭짓점에 대해서, 데이크스트라 알고리즘은 그 노드와 다른 모든 꼭짓점 간의 가장 짧은 경로를 찾는다. 이 알고리즘은 어떤 한 꼭짓점에서 다른 한 도착점까지 가는 경로를 찾을 때, 그 도착점까지 가는 가장 짧은 경로가 결정되면 멈추는 식으로 사용할 수 있다. 
 
@@ -280,8 +280,8 @@ public class Main {
 
 ```java
 class Edge implements Comparable<Edge> {
-    public int vex;
-    public int cost;
+    public int vex; // 정점
+    public int cost; // 비용 : 간선의 가중 
     Edge(int vex, int cost) {
         this.vex = vex;
         this.cost = cost;
@@ -321,7 +321,8 @@ class Main {
 		Scanner kb = new Scanner(System.in);
 		n=kb.nextInt();
 		m=kb.nextInt();
-		graph = new ArrayList<ArrayList<Edge>>();
+		// List 안에 List 인 이유는 가장 바깥 리스트는 각 노드에 대한 리스트이고, 내부 리스트는 각 노드에 연결 되어있는 노드들에 대한 정보를 담고 있는 리스트를 의미한다.
+		graph = new ArrayList<ArrayList<Edge>>(); 
 		for(int i=0; i<=n; i++){
 			graph.add(new ArrayList<Edge>());
 		}
