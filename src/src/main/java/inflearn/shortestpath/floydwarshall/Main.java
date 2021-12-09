@@ -31,7 +31,7 @@ public class Main {
     private static final int INF = (int) 1e9; // 다익스트라 알고리즘과는 달리 여기서는 Integer.MAX_VALUE 로 초기화하면 안된다.
     private static int n; // 노드의 개수
     private static int m; // 간선의 개수
-    private static int[][] graph = new int[501][501]; // 노드의 개수는 최대 500이라 가정
+    private static int[][] graph = new int[501][501]; // 최단 경로 그래프, 노드의 개수는 최대 500이라 가정
 
     public static void main(String[] args) {
         input();
@@ -73,6 +73,8 @@ public class Main {
         for (int k = 1; k <= n; k++) {
             for (int a = 1; a <= n; a++) {
                 for (int b = 1; b <= n; b++) {
+                    // graph[a][b] 에 대한 최단 경로 값을 갱신하는 코드
+                    // a 에서 b 로 가는 비용 = Min(기존에 저장된 a 에서 b 로 가는 비용 vs a 에서 k 를 거쳐 b 로 가는 비용)
                     graph[a][b] = Math.min(graph[a][b], graph[a][k] + graph[k][b]);
                 }
             }
