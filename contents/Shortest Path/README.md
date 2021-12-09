@@ -354,6 +354,82 @@ class Main {
 
 위의 방법은 `구현하기 쉽지만 느리게 동작하는 코드`로 짰을때 앞에서 부터 순차 탐색하는 경우의 동작방식을 나타낸다. 하지만 보통 다익스트라 알고리즘 문제는 `PriorityQueue` 를 사용하여 속도를 개선하기 때문에 문제 풀이에서 PriorityQueue 를 사용하였다.
 
+## 플로이드 워셜 알고리즘(Floyd-Warshall Algorithm)
+
+플로이드 워셜 알고리즘(Floyd-Warshall Algorithm)은 모든 지점에서 다른 모든 지점까지의 최단 경로를 모두 구해야하는 경우에 사용할 수 있는 경우이다. 다익스트라 알고리즘에 비교하면 소스코드가 짧은 편이다.
+
+다익스트라 알고리즘은 단계마다 최단 거리를 가지는 노드를 하나씩 반복적으로 선택한다. 그리고 해당 노드를 거쳐가는 경로를 확인하며, 최단 거리 테이블을 갱신하는 방식으로 동작한다. 
+플로이드 워셜 알고리즘 또한 단계마다 `거쳐 가는 노드`를 기준으로 알고리즘을 수행한다. 하지만 매번 방문하지 않은 노드 중에서 최단 거리를 갖는 노드를 찾을 필요가 없다는 점이 다르다. 노드의 개수가 N 개일 때 알고리즘상으로 N 번의 단계를 수행하며, 단계마다 O(N^2)의 연산을 통해 현재 노드를 거쳐가는 모든 경로를 고려한다. 따라서 총 시간 복잡도는 O(N^3)이다.
+
+플로이드 워셜 알고리즘은 `2차원 리스트`에 최단 거리 정보를 저장한다. 그리고 다이나믹 프로그래밍에 속한다.
+
+- 점화식 : `D(ab) = min(D(ab), D(ak) + D(kb))
+	- A 에서 B 로가는 최소 비용과 A 에서 K 를 거쳐 B 로 가는 비용을 비교하여 더 작은 값으로 갱신
+
+```java
+public class Main {
+
+    public static final int INF = (int) 1e9; // 무한을 의미하는 값으로 10억을 설정
+    // 노드의 개수(N), 간선의 개수(M)
+    // 노드의 개수는 최대 500개라고 가정
+    public static int n, m;
+    // 2차원 배열(그래프 표현)를 만들기
+    public static int[][] graph = new int[501][501];
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        n = sc.nextInt();
+        m = sc.nextInt();
+
+        // 최단 거리 테이블을 모두 무한으로 초기화
+        for (int i = 0; i < 501; i++) {
+            Arrays.fill(graph[i], INF);
+        }
+
+        // 자기 자신에서 자기 자신으로 가는 비용은 0으로 초기화
+        for (int a = 1; a <= n; a++) {
+            for (int b = 1; b <= n; b++) {
+                if (a == b) graph[a][b] = 0;
+            }
+        }
+
+        // 각 간선에 대한 정보를 입력 받아, 그 값으로 초기화
+        for (int i = 0; i < m; i++) {
+            // A에서 B로 가는 비용은 C라고 설정
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+            int c = sc.nextInt();
+            graph[a][b] = c;
+        }
+
+        // 점화식에 따라 플로이드 워셜 알고리즘을 수행
+        for (int k = 1; k <= n; k++) {
+            for (int a = 1; a <= n; a++) {
+                for (int b = 1; b <= n; b++) {
+                    graph[a][b] = Math.min(graph[a][b], graph[a][k] + graph[k][b]);
+                }
+            }
+        }
+
+        // 수행된 결과를 출력
+        for (int a = 1; a <= n; a++) {
+            for (int b = 1; b <= n; b++) {
+                // 도달할 수 없는 경우, 무한(INFINITY)이라고 출력
+                if (graph[a][b] == INF) {
+                    System.out.print("INFINITY ");
+                }
+                // 도달할 수 있는 경우 거리를 출력
+                else {
+                    System.out.print(graph[a][b] + " ");
+                }
+            }
+            System.out.println();
+        }
+    }
+}
+```
+
 ## References
 
 > https://ko.wikipedia.org/wiki/%EB%8D%B0%EC%9D%B4%ED%81%AC%EC%8A%A4%ED%8A%B8%EB%9D%BC_%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98
