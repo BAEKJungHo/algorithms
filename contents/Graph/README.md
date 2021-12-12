@@ -120,4 +120,8 @@ private static int findParentBypathCompression(int vertex) {
 }
 ```
 
-위 함수를 수행하면 
+경로 압축은 재귀를 호출한 결과를 부모 테이블에 갱신해주는 것이다. 시간 복잡도를 줄이는 방법은 경로 압축외에도 많다고 한다.
+
+## 서로소 집합을 활용한 사이클 판별
+
+
