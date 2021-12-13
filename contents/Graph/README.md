@@ -217,4 +217,35 @@ public class Main {
 
 대표적인 최소 신장 트리 알고리즘(Minimum Spanning Tree, MST)에는 `크루스칼 알고리즘(Kruskal Algorithm)`이 있다. 
 
-크루스칼 알고리즘은 `그리디(Greedy)` 알고리즘으로 분류된다.
+크루스칼 알고리즘은 `그리디(Greedy)` 알고리즘으로 분류된다. 크루스칼 알고리즘을 사용하면 가장 적은 비용으로 모든 노드를 연결할 수 있다.
+
+### 동작 과정
+
+- 간선 데이터를 비용에 따라 오름차순으로 정렬
+- 간선을 하나씩 확인하며 현재의 간선이 사이클을 발생시키는지 확인
+  - 사이클이 발생하지 않는 경우 최소 신장 트리에 포함 O
+  - 사이클이 발생하면 최소 신장 트리에 포함 X
+- __최소 신장 트리에서 간선의 개수는 `노드의 개수 - 1`과 같다.__
+
+![IMAGES](./images/krustep0.JPG)
+
+![IMAGES](./images/krustep1.JPG)
+
+![IMAGES](./images/krustep2.JPG)
+
+![IMAGES](./images/krustep3.JPG)
+
+![IMAGES](./images/krustep4.JPG)
+
+![IMAGES](./images/krustep5.JPG)
+
+![IMAGES](./images/krustep6.JPG)
+
+![IMAGES](./images/krustep7.JPG)
+
+![IMAGES](./images/krustep8.JPG)
+
+![IMAGES](./images/krustep9.JPG)
+
+![IMAGES](./images/krustep10.JPG)
+
