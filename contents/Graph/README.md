@@ -202,3 +202,20 @@ public class Main {
     }
 }
 ```
+
+# 신장 트리(Spanning Tree)
+
+신장 트리(Spanning Tree)란 `하나의 그래프가 있을 때 모든 노드를 포함하면서 사이클이 존재하지 않는 부분 그래프`를 의미한다.
+
+![IMAGES](./images/spanningtree.JPG)
+
+## 크루스칼 알고리즘(Kruskal Algorithm)
+
+![IMAGES](./images/mst.JPG)
+
+위 그래프에서 각 A, B, C 도시간 도로를 건설하는 비용이 10, 11, 12라고 할때 최소 비용으로 모든 도로를 연결하기 위한 비용은 `10 + 11 = 21` 일 것이다. 따라서, 최소 신장 트리 알고리즘이란 신장 트리 중에서 최소 비용으로 만들 수 있는 신장 트리를 찾는 알고리즘이라고 할 수 있다. 
+
+대표적인 최소 신장 트리 알고리즘(Minimum Spanning Tree, MST)에는 `크루스칼 알고리즘(Kruskal Algorithm)`이 있다. 
+
+크루스칼 알고리즘은 `그리디(Greedy)` 알고리즘으로 분류된다.
+
