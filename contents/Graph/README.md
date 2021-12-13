@@ -218,4 +218,3 @@ public class Main {
 대표적인 최소 신장 트리 알고리즘(Minimum Spanning Tree, MST)에는 `크루스칼 알고리즘(Kruskal Algorithm)`이 있다. 
 
 크루스칼 알고리즘은 `그리디(Greedy)` 알고리즘으로 분류된다.
-
