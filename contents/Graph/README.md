@@ -398,6 +398,7 @@ public class Main {
 
 ## 구현
 
+```java
 public class Main {
 
     private static int vertexCount; // 노드의 개수
