@@ -359,3 +359,41 @@ public class Main {
 }
 ```
 
+# 위상 정렬(Topology Sort)
+
+위상 정렬(Topology Sort)은 순서가 정해져 있는 일련의 작업을 차례대로 수행해야 할 때 사용할 수 있는 알고리즘이다. 즉, `방향 그래프의 모든 노드를 방향성에 거스르지 않도록 순서대로 나열 하는 것`이다.
+
+- __위상 정렬 예시__
+  - 선수과목을 고려한 학습 순서 설정
+    - A 과목을 수행하고 B 과목을 수강하는 것을 권장할 때, A, B 를 각각 노드로 표현하고 A -> B 로 가는 방향을 갖는 간선을 그린다.
+    - 즉, 그래프 상에서 `선, 후 관계`가 존재하면 위상 정렬을 수행하여 모든 선후 관계를 지키는 전체 순서를 계산할 수 있다.
+- __진입 차수(Indegree)__
+  - 진입 차수(Indegree)란 특정한 노드로 들어오는 간선의 개수를 의미한다. A -> B, B -> C, D -> B 의 관계를 가질 때 B 에 대한 진입 차수는 2이다.
+- __동작 과정__
+  - 진입 차수가 0인 노드를 큐에 넣는다.
+  - 큐가 빌 때까지 다음의 과정을 반복한다.
+    - 큐에서 원소를 꺼내 해당 노드에서 출발하는 간선을 그래프에서 제거한다.
+    - 새롭게 진입차수가 0이 된 노드를 큐에 넣는다.
+- __Tip__
+  - 모든 원소를 방문하기 전 큐가 빈다면 사이클(cycling)이 존재한다고 볼 수 있다.
+  - 보통 위상 정렬을 사용하라고 낸 문제들은, 사이클이 발생하지 않는다고 명시하는 경우가 많다.
+
+![IMAGES](./images/topologystep0.JPG)
+
+![IMAGES](./images/topologystep1.JPG)
+
+![IMAGES](./images/topologystep2.JPG)
+
+![IMAGES](./images/topologystep3.JPG)
+
+![IMAGES](./images/topologystep4.JPG)
+
+![IMAGES](./images/topologystep5.JPG)
+
+![IMAGES](./images/topologystep6.JPG)
+
+![IMAGES](./images/topologystep7.JPG)
+
+위상 정렬을 수행한 결과는 큐에서 빠져나간 노드를 순서대로 출력하면 된다. 위 그래프의 결과로는 `1-2-5-3-6-4-7` 과 `1-5-2-3-6-4-7` 이 정답이 된다.
+
+## 구현
