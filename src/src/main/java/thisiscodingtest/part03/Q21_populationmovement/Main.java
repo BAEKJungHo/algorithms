@@ -209,11 +209,6 @@ public class Main {
         }
     }
 
-    // 인구가 존재하는지
-    private static boolean hasPopulation(int p2) {
-        return p2 > 0;
-    }
-
     // 연결 가능한지
     private static boolean isLinkable(int p1, int p2) {
         int absValue = Math.abs(p1 - p2);
