@@ -52,6 +52,8 @@ public class Solution {
                 // 클리어 하지 못한 플레이어의 수 초기화
                 playerCountWhoNotClear = 1;
             }
+            // 한 숫자가 연속적으로 마지막 인덱스 까지 이어질때 계산하기 위함
+            // Ex. 4,4,4,4,4 or 1,2,3,3,3
             if(i == stages.length - 1 && stageNumber <= N) {
                 changeFailureRate(playerCountWhoNotClear, playerCountWhoReached, stageNumber);
             }
