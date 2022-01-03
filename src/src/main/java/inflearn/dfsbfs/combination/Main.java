@@ -31,7 +31,7 @@ public class Main {
         if(n == r || r ==0) {
             return 1;
         } else {
-            return store[n][r] = combinationByDFS(n - 1, r - 1) + combinationByDFS(n - 1, r);
+            return store[n][r] = combinationByDfsWithMemoization(n - 1, r - 1) + combinationByDfsWithMemoization(n - 1, r);
         }
     }
 }
