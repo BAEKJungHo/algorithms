@@ -9,14 +9,13 @@ N 명의 병사 무작위로 나열
 
 답지 참고 -> 이것도 100 퍼센트에서 틀렸다고 나옴
  */
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
 // 병사 배치하기
-public class Main2 {
+public class MainFail2 {
 
     static int N;
     static int[] dp;

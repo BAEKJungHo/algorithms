@@ -7,9 +7,8 @@ N 명의 병사 무작위로 나열
 배치 과정에서 특정한 위치에 있는 병사를 열외시키는 방법 이용
 남아있는 병사의 수가 최대가 되도록 -> LIS
 
-인프런 참고 -> 백준 제출했을때 100퍼센트에서 실패했다고 뜸
+답지 참고
  */
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -39,20 +38,29 @@ public class Main {
 
     static void solution() {
         dp = new int[list.size()];
-        dp[0] = 1;
+
         Collections.reverse(list);
+
+        // dp 초기화
+        for (int i = 0; i < N; i++) {
+            dp[i] = 1;
+        }
+
         for (int i = 1; i < list.size(); i++) {
-            int max = 0;
-            for (int k = i - 1; k >= 0; k--) {
+            for (int k = 0; k < i; k++) {
                 int prev = list.get(k);
                 int next = list.get(i);
-                if(next > prev && dp[k] > max) {
-                    max = dp[k];
+                if(next > prev) {
+                    dp[i] = Math.max(dp[i], dp[k] + 1);
                 }
             }
-            dp[i] = max + 1;
-            answer = Math.max(answer, dp[i]);
         }
-        answer = N - answer;
+
+        // 열외해야 하는 병사의 최소 수를 출력
+        int maxValue = 0;
+        for (int i = 0; i < N; i++) {
+            maxValue = Math.max(maxValue, dp[i]);
+        }
+        answer = N - maxValue;
     }
 }

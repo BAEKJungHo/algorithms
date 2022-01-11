@@ -1,13 +1,11 @@
 package thisiscodingtest.part03.Q34_placingsoldiers;
 
 /*
-N 명의 병사 무작위로 나열
-각 병사는 특정한 값의 전투력을 보유
-병사를 배치할때 전투력 순으로 내림차순
-배치 과정에서 특정한 위치에 있는 병사를 열외시키는 방법 이용
-남아있는 병사의 수가 최대가 되도록 -> LIS
+인프런 참고 -> 백준 제출했을때 100퍼센트에서 실패했다고 뜸
+이유를 모르겠음..
 
-답지 참고
+아래의 방식이 인프런 강의에서 알려준 방식.
+아래의 코드에서 Collections.reverse(list); 이 부분만 제거하면 LIS 의 길이를 구하는 코드가 된다.
  */
 
 import java.util.ArrayList;
@@ -16,7 +14,7 @@ import java.util.List;
 import java.util.Scanner;
 
 // 병사 배치하기
-public class Main3 {
+public class MainFail1 {
 
     static int N;
     static int[] dp;
@@ -39,29 +37,20 @@ public class Main3 {
 
     static void solution() {
         dp = new int[list.size()];
-        
+        dp[0] = 1;
         Collections.reverse(list);
-
-        // dp 초기화
-        for (int i = 0; i < N; i++) {
-            dp[i] = 1;
-        }
-
         for (int i = 1; i < list.size(); i++) {
-            for (int k = 0; k < i; k++) {
+            int max = 0;
+            for (int k = i - 1; k >= 0; k--) {
                 int prev = list.get(k);
                 int next = list.get(i);
-                if(next > prev) {
-                    dp[i] = Math.max(dp[i], dp[k] + 1);
+                if(next > prev && dp[k] > max) {
+                    max = dp[k];
                 }
             }
+            dp[i] = max + 1;
+            answer = Math.max(answer, dp[i]);
         }
-
-        // 열외해야 하는 병사의 최소 수를 출력
-        int maxValue = 0;
-        for (int i = 0; i < N; i++) {
-            maxValue = Math.max(maxValue, dp[i]);
-        }
-        answer = N - maxValue;
+        answer = N - answer;
     }
 }
